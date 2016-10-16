@@ -814,9 +814,18 @@ body {
         line-height: 0px;
       }
 
-      .icon-cart {
-      	background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%228%22%20height%3D%228%22%20viewBox%3D%220%200%208%208%22%3E%0A%20%20%3Cpath%20d%3D%22M.34%200a.5.5%200%200%200%20.16%201h1.5l.09.25.41%201.25.41%201.25c.04.13.21.25.34.25h3.5c.14%200%20.3-.12.34-.25l.81-2.5c.04-.13-.02-.25-.16-.25h-4.44l-.38-.72a.5.5%200%200%200-.44-.28h-2a.5.5%200%200%200-.09%200%20.5.5%200%200%200-.06%200zm3.16%205c-.28%200-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5zm3%200c-.28%200-.5.22-.5.5s.22.5.5.5.5-.22.5-.5-.22-.5-.5-.5z%22%0A%20%20transform%3D%22translate%280%201%29%22%20/%3E%0A%3C/svg%3E');
+      .cart-icon {
+        background-color: transprent;
+        background-image: url('data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0D%0A%3C%21--%20Generator%3A%20Adobe%20Illustrator%2016.0.0%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200%29%20%20--%3E%0D%0A%3C%21DOCTYPE%20svg%20PUBLIC%20%22-//W3C//DTD%20SVG%201.1//EN%22%20%22http%3A//www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd%22%3E%0D%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20width%3D%227.999px%22%20height%3D%226.002px%22%20viewBox%3D%22-0.086%200.998%207.999%206.002%22%20enable-background%3D%22new%20-0.086%200.998%207.999%206.002%22%0D%0A%09%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cpath%20fill%3D%22%23687079%22%20d%3D%22M0.34%2C1C0.064%2C1.044-0.124%2C1.304-0.08%2C1.58C-0.036%2C1.856%2C0.224%2C2.044%2C0.5%2C2H2l0.09%2C0.25L2.5%2C3.5l0.41%2C1.25%0D%0A%09C2.95%2C4.88%2C3.12%2C5%2C3.25%2C5h3.5c0.141%2C0%2C0.3-0.12%2C0.34-0.25L7.9%2C2.25C7.939%2C2.12%2C7.88%2C2%2C7.74%2C2H3.3L2.92%2C1.28%0D%0A%09C2.837%2C1.111%2C2.667%2C1.003%2C2.48%2C1h-2C0.45%2C0.997%2C0.42%2C0.997%2C0.39%2C1C0.37%2C0.999%2C0.35%2C0.999%2C0.33%2C1H0.34z%20M3.5%2C6C3.22%2C6%2C3%2C6.22%2C3%2C6.5%0D%0A%09S3.22%2C7%2C3.5%2C7S4%2C6.78%2C4%2C6.5S3.78%2C6%2C3.5%2C6z%20M6.5%2C6C6.221%2C6%2C6%2C6.22%2C6%2C6.5S6.221%2C7%2C6.5%2C7S7%2C6.78%2C7%2C6.5S6.779%2C6%2C6.5%2C6z%22/%3E%0D%0A%3C/svg%3E%0D%0A');
       	background-repeat: no-repeat;
+        background-size: 100% 100%;
+        content: '';
+        display: inline-block;
+        height: 20px;
+        left: 1px;
+        position: absolute;
+        top: -2px;
+        width: 20px;
       }
 
       .search {
@@ -1093,10 +1102,10 @@ body {
 }
 
 .main-header nav {
-  border-top: 1px solid $primary-border-color;
+  /*border-top: 1px solid $primary-border-color;*/
 
   &.bordered {
-    border-bottom: 2px solid $primary-border-color;
+    /*border-bottom: 2px solid $primary-border-color;*/
   }
   &.full {
     display: block;
@@ -1315,9 +1324,18 @@ nav.compact {
       font-size:27px;
       margin-top:8px;
     }
-    &.cart .icon      {
-      font-size:41px;
-      margin-top:-5px;
+    &.cart .cart-icon {
+      background-color: transprent;
+      background-image: url('data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0D%0A%3C%21--%20Generator%3A%20Adobe%20Illustrator%2016.0.0%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200%29%20%20--%3E%0D%0A%3C%21DOCTYPE%20svg%20PUBLIC%20%22-//W3C//DTD%20SVG%201.1//EN%22%20%22http%3A//www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd%22%3E%0D%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20width%3D%227.999px%22%20height%3D%226.002px%22%20viewBox%3D%22-0.086%200.998%207.999%206.002%22%20enable-background%3D%22new%20-0.086%200.998%207.999%206.002%22%0D%0A%09%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cpath%20fill%3D%22%23687079%22%20d%3D%22M0.34%2C1C0.064%2C1.044-0.124%2C1.304-0.08%2C1.58C-0.036%2C1.856%2C0.224%2C2.044%2C0.5%2C2H2l0.09%2C0.25L2.5%2C3.5l0.41%2C1.25%0D%0A%09C2.95%2C4.88%2C3.12%2C5%2C3.25%2C5h3.5c0.141%2C0%2C0.3-0.12%2C0.34-0.25L7.9%2C2.25C7.939%2C2.12%2C7.88%2C2%2C7.74%2C2H3.3L2.92%2C1.28%0D%0A%09C2.837%2C1.111%2C2.667%2C1.003%2C2.48%2C1h-2C0.45%2C0.997%2C0.42%2C0.997%2C0.39%2C1C0.37%2C0.999%2C0.35%2C0.999%2C0.33%2C1H0.34z%20M3.5%2C6C3.22%2C6%2C3%2C6.22%2C3%2C6.5%0D%0A%09S3.22%2C7%2C3.5%2C7S4%2C6.78%2C4%2C6.5S3.78%2C6%2C3.5%2C6z%20M6.5%2C6C6.221%2C6%2C6%2C6.22%2C6%2C6.5S6.221%2C7%2C6.5%2C7S7%2C6.78%2C7%2C6.5S6.779%2C6%2C6.5%2C6z%22/%3E%0D%0A%3C/svg%3E%0D%0A');
+    	background-repeat: no-repeat;
+      background-size: 100% 100%;
+      content: '';
+      display: inline-block;
+      height: 20px;
+      left: 1px;
+      position: relative;
+      top: 4px;
+      width: 20px;
     }
     &.search .icon    {
       font-size:27px;
