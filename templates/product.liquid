@@ -51,8 +51,6 @@
 
       <div class="module header">
         <h1 itemprop="name" class="title">{{ product.title }}</h1>
-        <!-- <h3 class="brand">{{ product.vendor }}</h3>         -->
-        <h4>SKU: {{ product.variants.first.sku }}</h4>
 
         <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
         {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
@@ -121,25 +119,13 @@
       {% endif %}
 
       <div class="module share-buttons">
-        <div class="share-wrap twitter">
-          <a href="https://twitter.com/share" class="twitter-share-button" data-count="none" data-text="{{ shop.name }} | {{ product.title }}:" data-via="{{ settings.twitter-username }}">Tweet</a>
-          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-        </div><div class="share-wrap google">
-          <div class="g-plusone" data-size="medium" data-annotation="none"></div>
-          <script type="text/javascript">
-            (function() {
-              var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-              po.src = 'https://apis.google.com/js/plusone.js';
-              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-            })();
-          </script>
-        </div><div class="share-wrap pinterest">
+        <div class="share-wrap pinterest">
           <a href="//pinterest.com/pin/create/button/?url={{ shop.url }}{{ product.url }}&media={{ product.featured_image | product_img_url: 'original' }}&description={{ product.title | escape }}" data-pin-do="buttonPin" data-pin-config="none"><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a>
           <script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
-        </div><div class="share-wrap facebook">
+        </div>
+        <div class="share-wrap facebook">
           <div class="fb-like" data-href="{{ shop.url }}{{ product.url }}" data-send="false" data-layout="button" data-width="90" data-show-faces="false"></div>
         </div>
-
       </div>
 
     </div>
