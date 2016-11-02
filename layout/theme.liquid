@@ -205,5 +205,17 @@
   };
   </script>
 
+  <script>
+    (function(){
+      var trigger = document.querySelector('#subsribe-show'),
+        show = trigger.nextElementSibling;
+
+      trigger.addEventListener('click', function() {
+        show.classList.remove('hidden');
+        trigger.style.display = 'none';
+      }, false);
+    })();
+  </script>
+
 </body>
 </html>

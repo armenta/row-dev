@@ -7,7 +7,7 @@
 {% endunless %}
 
 {% if settings.show-mailing-list %}
-  {% assign footerModules = footerModules | plus: 1 %}
+  {% assign footerModules = footerModules %}
 {% endif %}
 
 <footer class="main-footer content-area" id="main-footer">
@@ -15,30 +15,33 @@
   <!-- Connect with us
   ++++++++++++++++++++++++++++ -->
   <ul class="connect clearfix module-count-{{ footerModules }}">
-    {% unless settings.twitter-url.size == 0 and settings.facebook-url.size == 0 and settings.pinterest-url.size == 0 and settings.instagram-url.size == 0 %}<li class="social first">
+    {% unless settings.twitter-url.size == 0 and settings.facebook-url.size == 0 and settings.pinterest-url.size == 0 and settings.instagram-url.size == 0 %}<li class="social">
       <ul>
         {% if settings.facebook-url.size > 0 %}<li class="social-link facebook"><a href="{{ settings.facebook-url }}" target="_blank">f</a></li>{% endif %}
         {% if settings.pinterest-url.size > 0 %}<li class="social-link pinterest"><a href="{{ settings.pinterest-url }}" target="_blank">p</a></li>{% endif %}
         {% if settings.instagram-url.size > 0 %}<li class="social-link instagram"><a href="{{ settings.instagram-url }}" target="_blank">i</a></li>{% endif %}
-        {% if settings.show-mailing-list %}<li class="newsletter">
-          <form action="{{ settings.mailchimp-action-url }}" method="post" name="mc-embedded-subscribe-form" class="validate" target="_blank">
-            <div class="wrap">
-              <input class="email" name="EMAIL" type="email" placeholder="{{ 'layout.footer.email' | t }}" value="">
-              <input class="submit" name="subscribe" type="submit" value="{{ 'general.submit' | t }}">
-            </div>
-          </form>
-        </li>{% endif %}
       </ul>
-    </li>{% endunless %}
-    {% for link in linklists.footer-baseline-one.links %}
-      <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-    {% endfor %}
+    </li>{% endunless %}<li class="contact">
+      <ul>
+        {% if settings.show-mailing-list %}<li class="newsletter">
+          <a href="#" onclick="return false;" id="subsribe-show">Subscribe</a>
+          <div class="subscribe-wrapper hidden">
+            <form action="{{ settings.mailchimp-action-url }}" method="post" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+              <div class="wrap">
+                <input class="email" name="EMAIL" type="email" placeholder="{{ 'layout.footer.email' | t }}" value="">
+                <input class="submit" name="subscribe" type="submit" value="{{ 'general.submit' | t }}">
+              </div>
+            </form>
+          </div>
+        </li>{% endif %}
+        {% for link in linklists.footer-baseline-one.links %}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{% endfor %}
+      </ul>
+    </li>
   </ul>
 
   <!-- Sub-footer
   ++++++++++++++++++++++++++++ -->
   <div class="sub-footer">
-
     <ul class="payment-options {% if settings.payment-icon-colour == 'light' %}light{% endif %}">
       {% if settings.show-diners-club %}<li class="diners-club"></li>{% endif %}
       {% if settings.show-maestro %}<li class="maestro"></li>{% endif %}

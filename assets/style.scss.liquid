@@ -660,7 +660,7 @@ body {
 
   .label {
     font-size:35px;
-    font-weight:700;
+    font-weight: 400;
     font-family: $title-font;
     color: $title-color;
     text-transform: uppercase;
@@ -801,7 +801,7 @@ body {
         margin:0 10px;
         position: relative;
 
-        &:hover, &.active { color: $header-action-link-color-hover; }
+        &:hover, &.active { color: $header-action-link-color-hover; text-decoration: underline; }
         &.active { z-index:5000; }
       }
 
@@ -816,7 +816,7 @@ body {
 
       .cart-icon {
         background-color: transprent;
-        background-image: url('data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0D%0A%3C%21--%20Generator%3A%20Adobe%20Illustrator%2016.0.0%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200%29%20%20--%3E%0D%0A%3C%21DOCTYPE%20svg%20PUBLIC%20%22-//W3C//DTD%20SVG%201.1//EN%22%20%22http%3A//www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd%22%3E%0D%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20width%3D%227.999px%22%20height%3D%226.002px%22%20viewBox%3D%22-0.086%200.998%207.999%206.002%22%20enable-background%3D%22new%20-0.086%200.998%207.999%206.002%22%0D%0A%09%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cpath%20fill%3D%22%23687079%22%20d%3D%22M0.34%2C1C0.064%2C1.044-0.124%2C1.304-0.08%2C1.58C-0.036%2C1.856%2C0.224%2C2.044%2C0.5%2C2H2l0.09%2C0.25L2.5%2C3.5l0.41%2C1.25%0D%0A%09C2.95%2C4.88%2C3.12%2C5%2C3.25%2C5h3.5c0.141%2C0%2C0.3-0.12%2C0.34-0.25L7.9%2C2.25C7.939%2C2.12%2C7.88%2C2%2C7.74%2C2H3.3L2.92%2C1.28%0D%0A%09C2.837%2C1.111%2C2.667%2C1.003%2C2.48%2C1h-2C0.45%2C0.997%2C0.42%2C0.997%2C0.39%2C1C0.37%2C0.999%2C0.35%2C0.999%2C0.33%2C1H0.34z%20M3.5%2C6C3.22%2C6%2C3%2C6.22%2C3%2C6.5%0D%0A%09S3.22%2C7%2C3.5%2C7S4%2C6.78%2C4%2C6.5S3.78%2C6%2C3.5%2C6z%20M6.5%2C6C6.221%2C6%2C6%2C6.22%2C6%2C6.5S6.221%2C7%2C6.5%2C7S7%2C6.78%2C7%2C6.5S6.779%2C6%2C6.5%2C6z%22/%3E%0D%0A%3C/svg%3E%0D%0A');
+        background-image: url('data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0D%0A%3C%21--%20Generator%3A%20Adobe%20Illustrator%2016.0.0%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200%29%20%20--%3E%0D%0A%3C%21DOCTYPE%20svg%20PUBLIC%20%22-//W3C//DTD%20SVG%201.1//EN%22%20%22http%3A//www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd%22%3E%0D%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20width%3D%227.999px%22%20height%3D%226.002px%22%20viewBox%3D%22-0.086%200.998%207.999%206.002%22%20enable-background%3D%22new%20-0.086%200.998%207.999%206.002%22%0D%0A%09%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M0.34%2C1C0.064%2C1.044-0.124%2C1.304-0.08%2C1.58C-0.036%2C1.856%2C0.224%2C2.044%2C0.5%2C2H2l0.09%2C0.25L2.5%2C3.5l0.41%2C1.25%0D%0A%09C2.95%2C4.88%2C3.12%2C5%2C3.25%2C5h3.5c0.141%2C0%2C0.3-0.12%2C0.34-0.25L7.9%2C2.25C7.939%2C2.12%2C7.88%2C2%2C7.74%2C2H3.3L2.92%2C1.28%0D%0A%09C2.837%2C1.111%2C2.667%2C1.003%2C2.48%2C1h-2C0.45%2C0.997%2C0.42%2C0.997%2C0.39%2C1C0.37%2C0.999%2C0.35%2C0.999%2C0.33%2C1H0.34z%20M3.5%2C6C3.22%2C6%2C3%2C6.22%2C3%2C6.5%0D%0A%09S3.22%2C7%2C3.5%2C7S4%2C6.78%2C4%2C6.5S3.78%2C6%2C3.5%2C6z%20M6.5%2C6C6.221%2C6%2C6%2C6.22%2C6%2C6.5S6.221%2C7%2C6.5%2C7S7%2C6.78%2C7%2C6.5S6.779%2C6%2C6.5%2C6z%22/%3E%0D%0A%3C/svg%3E%0D%0A');
       	background-repeat: no-repeat;
         background-size: 100% 100%;
         content: '';
@@ -1184,6 +1184,7 @@ body {
 
       &:hover {
         color: $nav-link-color-hover;
+        text-decoration: underline;
       }
     }
 
@@ -1228,23 +1229,23 @@ body {
     .dropdown-wrap {
       display: none;
       position: absolute;
-      z-index:1000;
-      top:100%;
-      left:0;
-      width:198px;
+      z-index: 1000;
+      top: 80%;
+      left: 0;
+      width: 198px;
       border: 1px solid $nav-background-color;
-      border:1px solid rgba(229,227,228,0.8);
+      border: 1px solid rgba(229,227,228,0.8);
       background-color: $nav-background-color;
 
       &.child.right {
-        left:auto;
-        right:-198px;
-        top:0;
+        left: auto;
+        right: -198px;
+        top: 0;
       }
 
       &.child.left {
-        left:-198px;
-        top:0;
+        left: -198px;
+        top: 0;
       }
 
       .dropdown-item {
@@ -1254,6 +1255,7 @@ body {
           > a .label, > a .icon {
             @include opacity(1);
             color: $nav-link-color-hover;
+            text-decoration: underline;
           }
           > .dropdown-wrap { display:block; }
         }
@@ -1326,7 +1328,7 @@ nav.compact {
     }
     &.cart .cart-icon {
       background-color: transprent;
-      background-image: url('data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0D%0A%3C%21--%20Generator%3A%20Adobe%20Illustrator%2016.0.0%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200%29%20%20--%3E%0D%0A%3C%21DOCTYPE%20svg%20PUBLIC%20%22-//W3C//DTD%20SVG%201.1//EN%22%20%22http%3A//www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd%22%3E%0D%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20width%3D%227.999px%22%20height%3D%226.002px%22%20viewBox%3D%22-0.086%200.998%207.999%206.002%22%20enable-background%3D%22new%20-0.086%200.998%207.999%206.002%22%0D%0A%09%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cpath%20fill%3D%22%23687079%22%20d%3D%22M0.34%2C1C0.064%2C1.044-0.124%2C1.304-0.08%2C1.58C-0.036%2C1.856%2C0.224%2C2.044%2C0.5%2C2H2l0.09%2C0.25L2.5%2C3.5l0.41%2C1.25%0D%0A%09C2.95%2C4.88%2C3.12%2C5%2C3.25%2C5h3.5c0.141%2C0%2C0.3-0.12%2C0.34-0.25L7.9%2C2.25C7.939%2C2.12%2C7.88%2C2%2C7.74%2C2H3.3L2.92%2C1.28%0D%0A%09C2.837%2C1.111%2C2.667%2C1.003%2C2.48%2C1h-2C0.45%2C0.997%2C0.42%2C0.997%2C0.39%2C1C0.37%2C0.999%2C0.35%2C0.999%2C0.33%2C1H0.34z%20M3.5%2C6C3.22%2C6%2C3%2C6.22%2C3%2C6.5%0D%0A%09S3.22%2C7%2C3.5%2C7S4%2C6.78%2C4%2C6.5S3.78%2C6%2C3.5%2C6z%20M6.5%2C6C6.221%2C6%2C6%2C6.22%2C6%2C6.5S6.221%2C7%2C6.5%2C7S7%2C6.78%2C7%2C6.5S6.779%2C6%2C6.5%2C6z%22/%3E%0D%0A%3C/svg%3E%0D%0A');
+      background-image: url('data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0D%0A%3C%21--%20Generator%3A%20Adobe%20Illustrator%2016.0.0%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200%29%20%20--%3E%0D%0A%3C%21DOCTYPE%20svg%20PUBLIC%20%22-//W3C//DTD%20SVG%201.1//EN%22%20%22http%3A//www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd%22%3E%0D%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20width%3D%227.999px%22%20height%3D%226.002px%22%20viewBox%3D%22-0.086%200.998%207.999%206.002%22%20enable-background%3D%22new%20-0.086%200.998%207.999%206.002%22%0D%0A%09%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cpath%20fill%3D%22%23000000%22%20d%3D%22M0.34%2C1C0.064%2C1.044-0.124%2C1.304-0.08%2C1.58C-0.036%2C1.856%2C0.224%2C2.044%2C0.5%2C2H2l0.09%2C0.25L2.5%2C3.5l0.41%2C1.25%0D%0A%09C2.95%2C4.88%2C3.12%2C5%2C3.25%2C5h3.5c0.141%2C0%2C0.3-0.12%2C0.34-0.25L7.9%2C2.25C7.939%2C2.12%2C7.88%2C2%2C7.74%2C2H3.3L2.92%2C1.28%0D%0A%09C2.837%2C1.111%2C2.667%2C1.003%2C2.48%2C1h-2C0.45%2C0.997%2C0.42%2C0.997%2C0.39%2C1C0.37%2C0.999%2C0.35%2C0.999%2C0.33%2C1H0.34z%20M3.5%2C6C3.22%2C6%2C3%2C6.22%2C3%2C6.5%0D%0A%09S3.22%2C7%2C3.5%2C7S4%2C6.78%2C4%2C6.5S3.78%2C6%2C3.5%2C6z%20M6.5%2C6C6.221%2C6%2C6%2C6.22%2C6%2C6.5S6.221%2C7%2C6.5%2C7S7%2C6.78%2C7%2C6.5S6.779%2C6%2C6.5%2C6z%22/%3E%0D%0A%3C/svg%3E%0D%0A');
     	background-repeat: no-repeat;
       background-size: 100% 100%;
       content: '';
@@ -1620,7 +1622,7 @@ nav.compact {
         width:$content-width;
         min-width:$min-width;
         font-size:12px;
-        color:#333333;
+        color: $nav-link-color;
         @include opacity(0.7);
         position: relative;
 
@@ -1716,18 +1718,17 @@ nav.compact.dark {
 }
 
 .main-footer {
-  padding:0 15px;
+  margin: 40px auto 20px;
+  padding: 0 15px;
 
   .connect {
     display: block;
-    text-align: center;
-    border-top: 1px solid $primary-border-color;
-    border-bottom: 1px solid $primary-border-color;
 
     > li {
-      text-align:center;
+      text-align: center;
       display: inline-block;
       vertical-align: top;
+      padding: 8px 0 8px 8px;
 
       &.first { border-left:none; }
 
@@ -1735,16 +1736,17 @@ nav.compact.dark {
         width:100% !important;
         height: auto;
         border-left:none;
-        border-top: 1px solid $primary-border-color;
-        padding:0 0 45px;
+        padding:0 0 25px;
+        text-align: center;
 
         &.first { border-top:none; }
       }
     }
 
-    &.module-count-1 > li, &.module-count-2 > li { width:50%; }
+/* For memory sake */
+    /*&.module-count-1 > li, &.module-count-2 > li { width:50%; }*/
 
-    .title {
+      .title {
       margin:40px 0 0;
       font-size: 14px;
       color: $light-text-color;
@@ -1755,34 +1757,19 @@ nav.compact.dark {
       }
     }
 
-    .contact {
-
-      .title {
-        margin-bottom:35px;
-      }
-
-      .phone, .email {
-        color: $light-text-color;
-        font-size:14px;
-        margin:4px 0;
-
-        a {
-          color: $meta-link-color;
-          &:hover { color: $meta-link-color-hover;  }
-        }
-      }
-
-    }
-
     .social {
+      width: 25%;
 
       .title {
         margin-bottom:35px;
       }
 
       > ul {
-        padding:0 20px;
         font-size: 0;
+
+        > li {
+          text-align: left;
+        }
       }
 
       .social-link {
@@ -1790,29 +1777,28 @@ nav.compact.dark {
         height: 26px;
         margin:0 8px 6px;
         position: relative;
-        border-radius: 4px;
         display: inline-block;
 
         a {
           font-family: 'icons';
           -webkit-font-smoothing: antialiased;
           line-height: 0px;
-          font-size: 43px;
+          font-size: 36px;
           position: absolute;
           top: 0;
           right: 0;
           left: 0;
           bottom: 0;
-          color: $meta-link-color;
+          color: $nav-link-color;
 
-          &:hover { color: $meta-link-color-hover;  }
+          &:hover { color: $nav-link-color-hover;  }
         }
 
         &.twitter   a   { top:11px; font-size:48px; }
         &.facebook  a   { top:12px; }
         &.pinterest a   { top:12px; }
         &.google-plus a { top:14px; font-size:40px; }
-        &.instagram a   { top:12px; font-size:40px; }
+        &.instagram a   { top:12px; font-size:35px; }
         &.tumblr a      { top:12px; font-size:45px; }
         &.youtube a     { top:11px; }
         &.vimeo a       { top:12px; }
@@ -1822,17 +1808,21 @@ nav.compact.dark {
 
     .newsletter {
 
+      .subscribe-wrapper,
+      [name="mc-embedded-subscribe-form"] {
+        height: 22px;
+      }
+
       .title {
         margin-bottom:36px;
       }
 
       .wrap {
         display: inline-block;
-        width:75%;
-        padding-right:65px;
-        margin:0 auto;
-        border: 1px solid $primary-border-color;
+        margin: 0;
         position: relative;
+        width: 190px;
+        margin-right: 10px;
 
         @include breakpoint(small) { width:210px; }
       }
@@ -1846,26 +1836,30 @@ nav.compact.dark {
       }
 
       .email {
-        padding:8px 0 8px 8px;
-        width:100%;
-        background: transparent;
+        padding: 8px 2px 8px 4px;
+        width: 66%;
+        background: whitesmoke;
         font-size:12px;
         font-family: $meta-font;
         color: $light-text-color;
+        border-bottom: 1px solid #bbb;
+        height: 22px;
+        float: left;
+
       }
 
       .submit {
         position: absolute;
-        top:-1px;
-        right:-1px;
-        bottom:-1px;
-        width:65px;
+        top: 0;
+        right: 0;
+        width: 65px;
+        height: 22px;
         background: $meta-link-color;
-        font-size:10px;
-        letter-spacing:0.1em;
+        font-size: 10px;
+        letter-spacing: 0.1em;
         color: $background-color;
         text-transform: uppercase;
-        text-align:center;
+        text-align: center;
         border-radius: 0px;
 
         &:hover { background: $meta-link-color-hover;  }
@@ -1873,12 +1867,41 @@ nav.compact.dark {
 
     }
 
+    .contact {
+      width: 75%;
+
+      ul {
+        text-align: right;
+        width: 100%;
+
+        > li {
+          display: inline-block;
+          height: 22px;
+          vertical-align: middle;
+          line-height: 1.2;
+
+          a {
+            color: $nav-link-color;
+            font-size: 12px;
+            margin-right: 18px;
+            &:hover { color: $nav-link-color-hover;  text-decoration: underline; }
+          }
+        }
+      }
+
+      @include breakpoint(small) {
+        ul {
+          text-align: center;
+        }
+      }
+
+    }
+
   }
 
   .sub-footer {
-    margin:40px 0;
     font-family: $secondary-header-font;
-    font-size:12px;
+    font-size: 12px;
     color: $lightest-text-color;
 
     @include breakpoint(small) { text-align:center }
@@ -1888,7 +1911,7 @@ nav.compact.dark {
       margin-top: 30px;
 
       ul {
-      	width:33.3333%;
+      	width: 33.3333%;
       	text-indent: 33.3333%;
         text-align: left;
       	display: inline-block;
@@ -2075,7 +2098,7 @@ nav.compact.dark {
 
   h1, h2, h3, h4, h5, h6 {
     color: $title-color;
-    font-weight:7000;
+    font-weight: 400;
   }
 
   h1 { font-size:28px; }
@@ -2204,7 +2227,7 @@ table.mobile-layout {
   border-bottom: none;
 
   .column-title {
-    font-weight: 700;
+    font-weight: 400;
     width: 114px;
     padding-right: 23px;
     display: inline-block;
@@ -2353,7 +2376,7 @@ table.mobile-layout {
   @include breakpoint(small) { display:none; }
 
   a       { color: $accent-color; }
-  a:hover { color: $accent-color-hover; }
+  a:hover { color: $accent-color-hover; text-decoration: underline; }
 }
 .template-list-collections {
 
@@ -2614,7 +2637,7 @@ table.mobile-layout {
   }
   .title {
     font-size:11px;
-    font-weight: 600;
+    font-weight: 400;
     color: $title-color;
     font-family: $title-font;
     margin:10px 0 0;
@@ -3036,7 +3059,7 @@ be found in product.scss
     .name, .email, .address, .city, .country, .view-addresses { display:block; }
 
     .name {
-      font-weight: 700;
+      font-weight: 400;
       color: $title-color;
       font-family: $title-font;
       margin-bottom:12px;
@@ -3149,7 +3172,7 @@ be found in product.scss
 
     .name {
       font-size:14px;
-      font-weight: 700;
+      font-weight: 400;
       color: $title-color;
       font-family: $title-font;
       margin:0 0 25px;
@@ -3600,7 +3623,7 @@ be found in product.scss
           color: $title-color;
           font-family: $title-font;
           font-size:28px;
-          font-weight: 700;
+          font-weight: normal;
           line-height: 1.2;
 
           {% if settings.main-title-uppercase %}
@@ -5040,7 +5063,7 @@ be found in product.scss
     @include breakpoint(small) {
       position: relative;
       left:0;
-      background-color: $accent-color;
+      /*background-color: $accent-color;*/
       width:100%;
     }
   }
@@ -5095,7 +5118,7 @@ be found in product.scss
 
     .title {
       font-size: 56px;
-      font-weight:700;
+      font-weight:400;
       color:#ffffff;
       cursor: default;
       font-family: $title-font;
@@ -5140,7 +5163,7 @@ be found in product.scss
       line-height: 1.0em;
       position: relative;
       font-size: 15px;
-      font-weight: 700;
+      font-weight: 400;
       letter-spacing: 0.1em;
       color: $inverse-accent-color;
       background-color: $accent-color;
@@ -5191,7 +5214,7 @@ be found in product.scss
 
     h2 {
       font-size: 28px;
-      font-weight:700;
+      font-weight:400;
       color: $title-color;
       font-family: $title-font;
       line-height: 33px;
@@ -5315,7 +5338,7 @@ be found in product.scss
 
     .title {
       display: block;
-      font-weight:700;
+      font-weight:400;
       font-size:16px;
       font-family: $title-font;
       margin-bottom:18px;
@@ -5538,7 +5561,7 @@ be found in product.scss
 
     .shipping-title {
       display: block;
-      font-weight: 700;
+      font-weight: 400;
       color: $title-color;
       font-family: $title-font;
       margin-bottom:10px;
@@ -6468,7 +6491,7 @@ be found in product.scss
     padding:30px 0 10px;
 
     .title {
-      font-weight: 700;
+      font-weight: 400;
       font-size: 16px;
       color: $title-color;
       margin:0 0 12px;
@@ -6550,6 +6573,43 @@ be found in product.scss
 
   .pagination {
     padding-bottom:40px;
+  }
+
+}
+
+/* PAGES */
+.about {
+  .text-content,
+  .side-img {
+    width: 50%;
+  }
+
+  .side-img {
+    float: right;
+
+    .about-img {
+      -webkit-clip-path: inset(0 0 15% 0);
+      clip-path: inset(0 0 15% 0);
+      width: 100%;
+    }
+  }
+
+  @include breakpoint(small) {
+    .text-content,
+    .side-img {
+      width: 100%;
+    }
+
+    .side-img {
+      float: none;
+
+      // .about-img {
+      //   -webkit-clip-path: none;
+      //   clip-path: none;
+      //   width: 100%
+      // }
+    }
+
   }
 
 }
