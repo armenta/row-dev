@@ -1,0 +1,27 @@
+<div class="modal" data-modal-container aria-label="modal window" data-trap-focus>
+  <div class="modal-inner" data-modal-inner>
+    <button
+      class="modal-close"
+      type="button"
+      aria-label="{{ 'general.accessibility.close' | t }}"
+      data-modal-close
+    >
+      {% render 'icon-library', id: 'icon-close' %}
+    </button>
+    <div class="modal-content" data-modal-content></div>
+  </div>
+</div>
+
+<div class="modal-1" data-modal-container-1 aria-label="modal window">
+  <div class="modal-inner" data-modal-inner>
+    <button
+      class="modal-close"
+      type="button"
+      aria-label="{{ 'general.accessibility.close' | t }}"
+      data-modal-1-close
+    >
+      {% render 'icon-library', id: 'icon-close' %}
+    </button>
+    <div class="modal-content" data-modal-content></div>
+  </div>
+</div>

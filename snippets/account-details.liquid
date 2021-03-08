@@ -1,0 +1,14 @@
+
+{% if shop.customer_accounts_enabled %}
+  {% if customer %}
+    {% capture name %}
+      <a href="{{ routes.account_url }}">{{ customer.first_name }}</a>
+    {% endcapture %}
+    <p>{{ 'layout.header.user_html' | t: user: name | strip }}. {{ 'layout.header.logout' | t | customer_logout_link }}.</p>
+  {% else %}
+    <p>
+      {{ 'layout.header.login' | t | customer_login_link }}
+      {{ 'layout.header.sign_up' | t | customer_register_link }}
+    </p>
+  {% endif %}
+{% endif %}

@@ -1,0 +1,31 @@
+<div class="register-page">
+  <div class="register-page__header">
+    <h1 class="register-page__heading">{{ 'customer.register.header' | t }}</h1>
+  </div>
+
+  {% form 'create_customer', class: 'customer-create' %}
+    {{ form.errors | default_errors }}
+
+    <div class="customer-first-name">
+      <label class="customer-first-name__label" for="address-first-name">{{ 'customer.first_name' | t }}</label>
+      <input class="customer-first-name__input" id="address-first-name-{{form.id}}" type="text" value="{{ form.first_name }}" name="customer[first_name]" size="40" />
+    </div>
+
+    <div class="customer-last-name">
+      <label class="customer-last-name__label" for="address-last-name">{{ 'customer.last_name' | t }}</label>
+      <input class="customer-last-name__input" id="address-last-name-{{form.id}}" type="text" value="{{ form.last_name }}" name="customer[last_name]" size="40" />
+    </div>
+
+    <div class="customer-email">
+      <label class="customer-email__label" for="customer-email">{{ 'general.email' | t }}</label>
+      <input class="customer-email__input" id="customer-email" type="email" value="{{ form.email }}" name="customer[email]" type="email" placeholder="{{ 'general.email_placeholder' | t }}">
+    </div>
+
+    <div class="customer-password">
+      <label class="customer-password__label" for="customer-password">{{ 'customer.password' | t }}</label>
+      <input class="customer-password__input" id="customer-password" type="password" value="" name="customer[password]">
+    </div>
+
+    <button class="customer-create__submit" type="submit">{{ 'customer.register.header' | t }}</button>
+  {% endform %}
+</div>

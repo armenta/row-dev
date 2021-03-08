@@ -1,0 +1,203 @@
+{% comment %}
+  @param price_display
+         detmermines if the price is either below or above the variants
+{% endcomment %}
+
+{% assign payment_buttons = blank %}
+
+{% comment %}Dynamic checkout is not shown if selling plans are available{% endcomment %}
+{% if product.selling_plan_groups.size > 0 %}
+  {% assign show_payment_button = false %}
+{% endif %}
+
+{% if show_payment_button %}
+  {% capture throwaway %}
+    {% form 'product', product, class: 'product-details__form' %}
+      {% capture payment_buttons %}
+        {{ form | payment_button }}
+      {% endcapture %}
+    {% endform %}
+  {% endcapture %}
+{% endif %}
+
+{% capture product_form_price %}
+  <div class="product-details__price-container">
+    <div class="product-price">
+      <span class="
+          product-price__minimum
+          money
+          {% if variant.compare_at_price > variant.price %}product-price__minimum--sale{% endif %}
+        "
+        data-product-price
+      >
+        {% if product != blank %}
+          {{ variant.price | money }}
+        {% else %}
+          {{ 1999 | money }}
+        {% endif %}
+      </span>
+
+      <s
+        class="
+          product-price__compare
+          money
+          {% if product.compare_at_price_min <= variant.price %}
+            product-price__compare--hidden
+          {% endif %}
+        "
+        data-product-price-compare
+      >
+        {% if variant.compare_at_price > variant.price %}
+          {{ variant.compare_at_price | money }}
+        {% endif %}
+      </s>
+    </div>
+    {% capture total_quantity %}<span data-total-quantity>{{ variant.unit_price_measurement.quantity_value }}{{ variant.unit_price_measurement.quantity_unit }}</span>{% endcapture %}
+    {% capture unit_price %}<span data-unit-price-amount>{{ variant.unit_price | money }}</span>{% endcapture %}
+    {% capture unit_measure %}<span data-unit-price-measure>{%- if variant.unit_price_measurement.reference_value != 1 -%}{{ variant.unit_price_measurement.reference_value }}{%- endif %}{{ variant.unit_price_measurement.reference_unit }}</span>{% endcapture %}
+
+    <div
+      class="
+        product-details__unit-price
+        accent-text
+        {% unless variant.unit_price_measurement %}product-details__unit-price--hidden{% endunless %}
+      "
+      data-unit-price
+    >
+      {{ 'product.unit_pricing.price_per_unit_html' | t: total_quantity: total_quantity, unit_price: unit_price, unit_measure: unit_measure | strip_newlines }}
+    </div>
+
+    {%- capture tax_text -%}
+      {{ 'product.phrases.tax_line_html' | t }}
+    {%- endcapture -%}
+
+    {%- if tax_text != blank -%}
+      <div class="
+          product-details__tax-label
+          accent-text
+          {% unless variant.taxable %}product-details__tax-label--hidden{% endunless %}
+        "
+        data-tax-line
+      >
+        {{ tax_text }}
+      </div>
+    {%- endif -%}
+  </div>
+{% endcapture %}
+
+
+{% capture quantity_selector %}
+  {% if show_quantity_selector %}
+    <div
+      class="product-quantity"
+    >
+      <label class="product-quantity-label">{{ 'general.quantity' | t }}</label>
+      <input type="text" class="quantity-field" name="quantity" value="1">
+    </div>
+  {% else %}
+    <input type="hidden" name="quantity" value="1">
+  {% endif %}
+{% endcapture %}
+
+{% capture form_contents %}
+  {% if price_display == 'above_variants' %}
+    {{ product_form_price }}
+  {% endif %}
+
+  <div class="
+      product-details__options
+      {% if show_variant_labels %}
+        product-details__options--show-label
+      {% endif %}
+    "
+  >
+    {%
+      render 'product-options-dropdown',
+      product: product,
+      show_quantity_selector: show_quantity_selector
+    %}
+  </div>
+
+  <div
+    class="
+      product-details__add-to-cart-area
+      {% if product.variants.size == 1 or product.available == false %}
+        no-variants
+      {% endif %}
+      {% if show_quantity_selector %}product-details__add-to-cart-area--show-quantity{% endif %}
+    "
+  >
+    {% if price_display == "below_variants" %}
+      <div class="
+        product-details__qty-price-container
+        {% if show_quantity_selector %}
+          {% if product.options.size > 1 or show_payment_button %}
+            product-details__qty-price-container--align-columns
+          {% endif %}
+        {% endif %}
+      ">
+        {{ product_form_price }}
+        {{ quantity_selector }}
+      </div>
+    {% else %}
+      {{ quantity_selector }}
+    {% endif %}
+
+    <div
+      class="
+        product-details__add-to-cart-buttons
+        {% if show_payment_button %}
+          product-details__add-to-cart-buttons--spb-enabled
+        {% else %}
+          product-details__add-to-cart-buttons--spb-disabled
+        {% endif %}
+      "
+    >
+      <button
+        class="product-details__add-to-cart-button"
+        type="submit"
+        data-product-atc
+        {% unless variant.available %}disabled{% endunless %}
+      >
+        <span data-product-atc-text>
+          {%- if variant.available -%}
+            {{ 'product.add_to_cart.submit' | t }}
+          {% else %}
+            {{ 'product.add_to_cart.sold_out' | t }}
+          {% endif %}
+        </span>
+        <span data-product-atc-loader>
+          {% render 'icon-library', id: 'icon-spinner' %}
+        </span>
+      </button>
+
+      {{ payment_buttons }}
+    </div>
+    <div class="
+        surface-pick-up
+        {% unless show_payment_button %}
+          surface-pick-up--spb-disabled
+        {% endunless %}
+      "
+      data-surface-pick-up
+    ></div>
+  </div>
+{% endcapture %}
+
+{% if product != blank %}
+  {% form 'product', product, class: 'product-details__form' %}
+    {{ form_contents }}
+  {% endform %}
+  {% if product.description != blank %}
+      <div class="product-details__description" data-rich-text-area>
+        {{ product.description }}
+      </div>
+    {% endif %}
+{% else %}
+  <div class="product-details__form">
+    {{ form_contents }}
+  </div>
+  <div class="product-details__description" data-rich-text-area>
+    {{ 'product.onboarding.description' | t }}
+  </div>
+{% endif %}

@@ -1,0 +1,170 @@
+<section class="collection-list-page collection-list--{{ section.settings.columns }}-columns">
+  <div class="collection-list-page__header">
+    <h1>{{ 'collections.title' | t }}</h1>
+  </div>
+
+  <div class="collection-list-page__wrapper" style="--collection-list-columns-setting: {{ section.settings.columns }};">
+    {% if section.settings.display_type == 'all' %}
+      {% case section.settings.sort %}
+        {% when 'products_high' or 'products_low' %}
+          {%- assign collections = collections | sort: 'all_products_count' -%}
+        {% when 'date' or 'date_reversed' %}
+          {%- assign collections = collections | sort: 'published_at' -%}
+      {% endcase %}
+      {% if section.settings.sort == 'products_low' or section.settings.sort == 'date' or section.settings.sort == 'alphabetical' %}
+        {% for collection in collections %}
+          {%
+            render 'collection-list-item',
+            collection: collection,
+            show_title: section.settings.show_title,
+            show_product_count: section.settings.show_product_count,
+            show_description: section.settings.show_description,
+            item_style: section.settings.item_style
+          %}
+        {% endfor %}
+      {% else %}
+        {% for collection in collections reversed %}
+          {%
+            render 'collection-list-item',
+            collection: collection,
+            show_title: section.settings.show_title,
+            show_product_count: section.settings.show_product_count,
+            show_description: section.settings.show_description,
+            item_style: section.settings.item_style
+          %}
+        {% endfor %}
+      {% endif %}
+    {% else %}
+      {% for block in section.blocks %}
+          {%- assign collection = collections[block.settings.collection] -%}
+          {%
+            render 'collection-list-item',
+            collection: collection,
+            show_title: section.settings.show_title,
+            show_product_count: section.settings.show_product_count,
+            show_description: section.settings.show_description,
+            item_style: section.settings.item_style,
+            block: block,
+          %}
+      {% endfor %}
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection list",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "All of your collections are listed by default. To customize your list, choose 'Selected' and add collections."
+    },
+    {
+      "type": "radio",
+      "id": "display_type",
+      "label": "Select collections to show",
+      "options": [
+        { "value": "all", "label": "All" },
+        { "value": "selected", "label": "Selected" }
+      ],
+      "default": "all"
+    },
+    {
+      "type": "select",
+      "id": "sort",
+      "label": "Sort collections by:",
+      "options": [
+        {
+          "value": "products_high",
+          "label": "Product count, high to low"
+        },
+        {
+          "value": "products_low",
+          "label": "Product count, low to high"
+        },
+        {
+          "value": "alphabetical",
+          "label": "Alphabetically, A-Z"
+        },
+        {
+          "value": "alphabetical_reversed",
+          "label": "Alphabetically, Z-A"
+        },
+        {
+          "value": "date",
+          "label": "Date, old to new"
+        },
+        {
+          "value": "date_reversed",
+          "label": "Date, new to old"
+        }
+      ],
+      "default": "alphabetical",
+      "info": "Sorting only applies when 'All' is selected"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "label": "Collections per row",
+      "default": 3
+    },
+    {
+      "id": "item_style",
+      "type": "select",
+      "label": "Image aspect ratio",
+      "options": [
+        { "value": "natural", "label": "Natural" },
+        { "value": "small", "label": "Short (4:3)" },
+        { "value": "medium", "label": "Square (1:1)" },
+        { "value": "large", "label": "Tall (2:3)" }
+      ],
+      "default": "natural"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show collection title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_count",
+      "label": "Show product count",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show collection description",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "id": "collection",
+          "type": "collection",
+          "label": "Collection"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "collection"
+      },
+      {
+        "type": "collection"
+      }
+    ]
+  }
+}
+
+{% endschema %}

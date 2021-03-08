@@ -1,0 +1,52 @@
+{% assign onboard = false %}
+
+{% if section.settings.title == blank and section.settings.introduction_tagline == blank %}
+  {% assign onboard = true %}
+{% endif %}
+
+<div data-section-id="{{ section.id }}">
+  <section class="rich-text">
+    {% if onboard %}
+      <div class="rich-text__wrapper">
+        <h2>{{ 'onboarding.welcome_message.title' | t }}</h2>
+        <div>{{ 'onboarding.welcome_message.text' | t }}</div>
+      </div>
+    {% else %}
+        <div class="rich-text__wrapper">
+          {% unless section.settings.title == blank %}
+            <h2 class="rich-text__heading">{{ section.settings.title }}</h2>
+          {% endunless %}
+          {% unless section.settings.introduction_tagline == blank %}
+            <div class="rich-text__content">{{ section.settings.introduction_tagline }}</div>
+          {% endunless %}
+        </div>
+    {% endif %}
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Rich text",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Rich text"
+    },
+    {
+      "type": "richtext",
+      "id": "introduction_tagline",
+      "label": "Text",
+      "default": "<p>Use this section to welcome customers to your store, say a bit about your brand, or share news and seasonal promotions.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "category": "Text",
+      "name": "Rich text"
+    }
+  ]
+}
+
+{% endschema %}

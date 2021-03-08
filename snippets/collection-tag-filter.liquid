@@ -1,0 +1,13 @@
+{% if collection.all_tags != blank %}
+  {% unless collection.products.first.vendor == collection.title %}
+    <div class="collection-page__tag-filter" data-tag-filtering>
+      <label>{{ 'collections.tags.browse' | t }}:</label>
+      <select data-collection="{{ collection.handle }}">
+        <option value="all">{{ 'collections.tags.all' | t }}</option>
+        {% for tag in collection.all_tags %}
+          <option value="{{ tag | handleize }}" {% if current_tags contains tag %}selected{% endif %}>{{ tag }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  {% endunless %}
+{% endif %}

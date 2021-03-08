@@ -1,37 +1,52 @@
-<ul class="pagination {% if settings.pagination-style == 'jump-to-page' %}jump-to-page{% endif %}">
 
-  <li class="previous">
+{% if paginate.previous or paginate.next %}
+  <div class="pagination">
     {% if paginate.previous %}
-      <a href="{{ paginate.previous.url }}">{{ 'general.pagination.previous' | t }}</a>
+      <a
+        href="{{ paginate.previous.url }}"
+        class="pagination__previous-button"
+        aria-label="{{ 'general.pagination.previous' | t }}"
+      >
+        {% render 'icon-library', id: 'icon-long-arrow' %}
+      </a>
     {% else %}
-      {{ 'general.pagination.previous' | t }}
+      <span
+        class="pagination__previous-button disabled"
+        aria-label="{{ 'general.pagination.previous' | t }}"
+      >
+        {% render 'icon-library', id: 'icon-long-arrow' %}
+      </span>
     {% endif %}
-  </li>
 
-  {% if settings.pagination-style == 'standard' %}
-    <li class="position">{{ 'general.pagination.summary' | t: current_page: paginate.current_page, pages: paginate.pages }}</li>
-  {% else %}
-
-    {% for part in paginate.parts %}
-      {% if part.is_link %}
-        <li class="jump-to-link">{{ part.title | link_to: part.url }}</li>
-      {% else %}
-        {% if part.title == '&hellip;' %}
-        <li class="jump-to-link ellipsis">{{ part.title }}</li>
+    <ul class="pagination__page-list">
+      {% for part in paginate.parts %}
+        {% if part.is_link %}
+          <li class="pagination__page"><a href="{{ part.url }}">{{ part.title }}</a></li>
         {% else %}
-        <li class="jump-to-link active">{{ part.title }}</li>
+          {% if part.title == '&hellip;' %}
+            <li class="pagination__page">{{ part.title }}</li>
+          {% else %}
+            <li class="pagination__page pagination__page--current">{{ part.title }}</li>
+          {% endif %}
         {% endif %}
-      {% endif %}
-    {% endfor %}
+      {% endfor %}
+    </ul>
 
-  {% endif %}
-
-  <li class="next">
     {% if paginate.next %}
-      <a href="{{ paginate.next.url }}">{{ 'general.pagination.next' | t }}</a>
+      <a
+        href="{{ paginate.next.url }}"
+        class="pagination__next-button"
+        aria-label="{{ 'general.pagination.next' | t }}"
+      >
+        {% render 'icon-library', id: 'icon-long-arrow' %}
+      </a>
     {% else %}
-      {{ 'general.pagination.next' | t }}
+      <span
+        class="pagination__next-button disabled"
+        aria-label="{{ 'general.pagination.next' | t }}"
+      >
+        {% render 'icon-library', id: 'icon-long-arrow' %}
+      </span>
     {% endif %}
-  </li>
-
-</ul><!-- .pagination -->
+  </div>
+{% endif %}

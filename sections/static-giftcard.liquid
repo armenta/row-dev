@@ -1,0 +1,76 @@
+<script
+  type="application/json"
+  data-section-type="static-giftcard"
+  data-section-id="static-giftcard"
+>
+</script>
+
+<section class="gift-card">
+  <header class="gift-card__header">
+    <h1 class="gift-card__heading">{{ shop.name | escape }}</h2>
+
+    <h2 class="gift-card__subheading">{{ 'gift_card.issued.subtext' | t }}</h2>
+
+    {% if gift_card.balance != gift_card.initial_value %}
+      {% capture balance %}
+        {{ gift_card.balance | money }}
+      {% endcapture %}
+      <p class="gift-card__amount-remaining">{{ 'gift_card.issued.balance' | t: balance: balance }}</p>
+    {% endif %}
+
+    {% unless gift_card.enabled %}
+      <p class="gift-card__disabled">{{ 'gift_card.issued.disabled' | t }}</p>
+    {% endunless %}
+
+    {% assign gift_card_expiry_date = gift_card.expires_on | date: format: 'gift_card_expiry' %}
+    {% if gift_card.expired and gift_card.enabled %}
+      <p class="gift-card__expired">{{ 'gift_card.issued.expired' | t: expiry: gift_card_expiry_date }}</p>
+    {% endif %}
+
+    {% if gift_card.expired != true and gift_card.expires_on and gift_card.enabled %}
+      <p class="gift-card__active">{{ 'gift_card.issued.active' | t: expiry: gift_card_expiry_date }}</p>
+    {% endif %}
+  </header>
+
+  <div class="gift-card__wrapper">
+    <div class="gift-card__details">
+      <img class="gift-card__img" src="{{ 'gift-card/card.jpg' | shopify_asset_url }}">
+
+      <div class="gift-card__amount">
+        {{ gift_card.initial_value | money_without_trailing_zeros: gift_card.currency | strip_html }}
+      </div>
+
+      {% assign code_size = gift_card.code | format_code | size %}
+      <div
+        class="gift-card__code"
+        style="--gift-card-code-length:{{ code_size }}ch"
+        data-gift-card-code
+      >{{ gift_card.code | format_code }}</div>
+    </div>
+
+    <p class="gift-card__instructions">{{ 'gift_card.issued.redeem' | t }}</p>
+
+    <div id="qr-code" class="gift-card__qr-code" data-gift-card-qr-code="{{ gift_card.qr_identifier }}"></div>
+
+    <div class="gift-card__actions">
+      <a class="gift-card__shop-btn" href="{{ shop.url }}">{{ 'gift_card.issued.shop_link' | t }}</a>
+      <button class="gift-card__print-btn" onclick="window.print();">{{ 'gift_card.issued.print' | t }}</button>
+    </div>
+  </div>
+
+  {% if gift_card.pass_url %}
+    <footer class="gift-card__footer" role="contentinfo">
+      <a class="gift-card-apple-wallet-badge" href="{{ gift_card.pass_url }}">
+        <img class="gift-card-apple-wallet-badge-image" src="{{ 'gift-card/add-to-apple-wallet.svg' | shopify_asset_url }}" alt="{{ 'gift_cards.issued.apple_wallet' | t }}">
+      </a>
+    </footer>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Gift card",
+  "class": "giftcard--section",
+  "settings": []
+} 
+{% endschema %}

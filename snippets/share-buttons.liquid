@@ -1,0 +1,47 @@
+{% comment %}
+  @param context {Article|Product} Article or Product object for which to generate share links.
+{% endcomment %}
+
+{% capture permalink_url %}{{ shop.url }}{{ context.url }}{% endcapture %}
+
+{% assign share_image = false %}
+{% if context.featured_media %}
+  {% comment %} Product context {% endcomment %}
+  {% assign share_image =  context.featured_media | img_url: '1024x1024' %}
+{% elsif context.image %}
+  {% comment %} Article context {% endcomment %}
+  {% assign share_image =  context.image | img_url: '1024x1024' %}
+{% endif %}
+
+{% assign description = context.title | escape %}
+
+<div class="share-buttons">
+  <a
+    target="_blank"
+    href="//twitter.com/share?url={{ permalink_url }}"
+    class="share-buttons__twitter"
+  >
+    {% render 'icon-library', id: 'icon-twitter' %}
+    <span class="share-buttons__share-text">{{ 'general.social.share_on_twitter' | t }}</span>
+  </a>
+
+  <a
+    target="_blank"
+    href="//www.facebook.com/sharer.php?u={{ permalink_url }}"
+    class="share-buttons__facebook"
+  >
+    {% render 'icon-library', id: 'icon-facebook' %}
+    <span class="share-buttons__share-text">{{ 'general.social.share_on_facebook' | t }}</span>
+  </a>
+
+  {% if share_image %}
+    <a
+      target="_blank"
+      href="//pinterest.com/pin/create/button/?url={{ permalink_url }}&amp;media=http:{{ share_image }}&amp;description={{ description }}"
+      class="share-buttons__pinterest"
+    >
+      {% render 'icon-library', id: 'icon-pinterest' %}
+      <span class="share-buttons__share-text">{{ 'general.social.share_on_pinterest' | t }}</span>
+    </a>
+  {% endif %}
+</div>

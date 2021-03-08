@@ -1,0 +1,87 @@
+{% comment %}
+  @param product
+  @param variant
+  @param layout
+  @param enable_zooom
+  @param show_quantity_selector
+  @param show_variant_labels
+  @param show_vendor
+  @param show_social_sharing_buttons
+  @param onboarding
+{% endcomment %}
+
+{% assign is_quickshop = false %}
+{% if template.suffix == '_quickshop' %}
+  {% assign is_quickshop = true %}
+{% endif %}
+
+<div class="product__wrapper product__wrapper--{{ layout }}">
+  {% assign heading_element = 'h2' %}
+  {% if template.name == 'product' %}
+    {% assign heading_element = 'h1' %}
+  {% endif %}
+
+  <div
+    class="
+      product__header
+    "
+  >
+    {% if show_vendor %}
+      <p class="product__vendor">
+        {% if onboarding %}
+          {{ 'product.onboarding.vendor' | t }}
+        {% else %}
+          {{ product.vendor | link_to_vendor }}
+        {% endif %}
+      </p>
+    {% endif %}
+    <{{ heading_element }} class="product__heading">
+      {% if is_quickshop %}<a href="{{ product.url | within: collection }}">{% endif %}
+        {% if onboarding %}
+          {{ 'product.onboarding.title' | t }}
+        {% else %}
+          {{ product.title }}
+        {% endif %}
+      {% if is_quickshop %}</a>{% endif %}
+    </{{ heading_element }}>
+  </div>
+
+  {%
+    render 'product-gallery',
+    product: product,
+    layout: layout,
+    enable_zoom: enable_zoom,
+    onboarding: onboarding
+  %}
+
+  <div class="product-details">
+    {% if layout == 'one-column' %}
+      {%
+        render 'product-form',
+        product: product,
+        price_display: "below_variants",
+        show_payment_button: show_payment_button,
+        variant: variant,
+        show_quantity_selector: show_quantity_selector,
+        show_variant_labels: show_variant_labels
+      %}
+    {% else %}
+      {%
+        render 'product-form',
+        product: product,
+        price_display: "above_variants"
+        show_payment_button: show_payment_button,
+        variant: variant,
+        show_quantity_selector: show_quantity_selector,
+        show_variant_labels: show_variant_labels
+      %}
+    {% endif %}
+
+    {% if show_social_sharing_buttons %}
+      <div class="product__share">
+        <p class="product__share-text">{{ 'general.social.share_this' | t }}</p>
+        {% render 'share-buttons', context: product %}
+      </div>
+    {% endif %}
+  </div>
+</div>

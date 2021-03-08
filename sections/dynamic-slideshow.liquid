@@ -1,0 +1,268 @@
+{% assign aspect_ratio = section.settings.aspect_ratio %}
+
+{% assign crop_images = 'center' %}
+{% if section.settings.aspect_ratio == 'original' %}
+  {% assign crop_images = false %}
+{% endif %}
+
+{% assign slide_attraction = 1 %}
+{% assign slide_friction = 1 %}
+
+<script
+  type="application/json"
+  data-section-type="dynamic-slideshow"
+  data-section-id="{{ section.id }}"
+  data-section-data
+>
+  {
+    "enable_autoplay": {{ section.settings.should_autoplay | json }},
+    "autoplay_interval": {{ section.settings.slide_frequency | json }},
+    "mobile_navigation_adjust": {{ true | json }},
+    "next_text": {{ 'slideshow.next_slide' | t | json }},
+    "previous_text": {{ 'slideshow.previous_slide' | t | json }}
+  }
+</script>
+
+<section
+  class="
+    slideshow
+    slideshow--size-{{ aspect_ratio }}
+  "
+  aria-label="{{ 'slideshow.slideshow' | t }}"
+  data-autoplay="{% if section.settings.should_autoplay %}true{% else %}false{% endif %}"
+  data-autoplay-interval="{{ section.settings.slide_frequency }}"
+>
+  <div
+    class="slideshow__wrapper"
+    data-slideshow-wrapper
+  >
+    {% for block in section.blocks %}
+      {%- assign placeholder_number = forloop.index | modulo: 2 | plus: 1 -%}
+      {%- assign placeholder = 'lifestyle-' | append: placeholder_number -%}
+      {%- assign slide_number = forloop.index -%}
+      {%- assign overlay_opacity = 0 -%}
+      {%- if block.settings.background_color_opacity > 0 -%}
+        {%- assign overlay_opacity = block.settings.background_color_opacity | times: 0.01 -%}
+      {%- endif -%}
+
+      <article
+        class="slideshow-slide"
+        aria-label="{{ 'slideshow.slide_counter' | t: count: slide_number, total: section.blocks.size }}"
+        {% if block.settings.color != blank %}data-text-color="{{ block.settings.color }}"{% endif %}
+        tabindex="-1"
+        data-slideshow-slide
+        data-slideshow-slide-index="{{ forloop.index0 }}"
+        {{ block.shopify_attributes }}
+      >
+        <div
+          class="slideshow-slide__image-wrapper"
+          data-slide-image-wrapper
+        >
+          {%- if block.settings.image != blank -%}
+            {%
+              render 'rimg',
+              img: block.settings.image,
+              class: 'slideshow-slide__image',
+              size: '2000x2000',
+              crop: crop_images,
+              lazy: true,
+              canvas: true,
+            %}
+          {%- else -%}
+            {{ placeholder |  placeholder_svg_tag: 'slideshow-slide__image slideshow-slide__placeholder' }}
+          {%- endif -%}
+          {%- if block.settings.background_color_opacity != 0 and block.settings.background_color != 'rgba(0,0,0,0)' -%}
+            <div
+              class="slideshow-slide__overlay"
+              style="
+                {% if block.settings.background_color != blank %}
+                  background-color: {{ block.settings.background_color }};
+                {% endif %}
+                opacity: {{ overlay_opacity }};
+              "
+            ></div>
+          {%- endif -%}
+        </div>
+
+        {%- if block.settings.link != blank -%}
+          <a
+            href="{{ block.settings.link }}"
+            class="slideshow-slide__background-link"
+            tabindex="-1"
+          ></a>
+        {%- endif -%}
+
+        <div
+          class="
+            slideshow-slide__content
+            slideshow-slide__content--{{ block.id }}
+            {% if block.settings.alignment %}slideshow-slide__content--text-{{ block.settings.alignment }}{% endif %}
+          "
+          {% if block.settings.color != blank %}style="color: {{ block.settings.color }}"{% endif %}
+          data-slide-content
+        >
+          {%- if block.settings.title != blank -%}
+            <h2 class="slideshow-slide__heading">
+              {{ block.settings.title }}
+            </h2>
+          {%- endif -%}
+
+          {%- if block.settings.subheading != blank -%}
+            <p class="slideshow-slide__text">
+              {{ block.settings.subheading }}
+            </p>
+          {%- endif -%}
+
+          {%- if block.settings.button_label != blank and block.settings.link != blank -%}
+            <a
+              href="{{ block.settings.link }}"
+              class="slideshow-slide__button"
+            >
+              {{ block.settings.button_label }}
+            </a>
+          {%- endif -%}
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+
+  <div
+    class="slideshow__current-slide visually-hidden"
+    aria-live="polite"
+    aria-atomic="true"
+    data-slide-counter
+    data-counter-template="{{ 'slideshow.slide_counter' | t }}"
+  >
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Slideshow",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "id": "should_autoplay",
+      "type": "checkbox",
+      "label": "Auto-rotate slides",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "slide_frequency",
+      "label": "Rotation interval",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "sec",
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio",
+      "label": "Slideshow height",
+      "options": [
+        { "label": "Small", "value": "23-9" },
+        { "label": "Medium", "value": "2-1" },
+        { "label": "Large", "value": "8-5" },
+        { "label": "Original aspect ratio", "value": "original" }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "940 x 444px .jpg recommended"
+        },
+        {
+          "type": "header",
+          "content": "Overlay"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Slide"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Introduce customers to your shop with lifestyle and product imagery"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Button"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "background_color_opacity",
+          "label": "Background color opacity",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Alignment",
+          "options": [
+            { "label": "Left Top", "value": "left-top" },
+            { "label": "Left Center", "value": "left-center" },
+            { "label": "Left Bottom", "value": "left-bottom" },
+            { "label": "Center Top", "value": "center-top" },
+            { "label": "Center", "value": "center-center" },
+            { "label": "Center Bottom", "value": "center-bottom" },
+            { "label": "Right Top", "value": "right-top" },
+            { "label": "Right Center", "value": "right-center" },
+            { "label": "Right Bottom", "value": "right-bottom" }
+          ],
+          "default": "center-center"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Image",
+      "name": "Slideshow",
+      "blocks": [
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        }
+      ]
+    }
+  ]
+}
+
+{% endschema %}

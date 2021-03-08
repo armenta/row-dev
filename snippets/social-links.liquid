@@ -1,0 +1,58 @@
+<ul class="social-links">
+  {% if settings.show-twitter-link != blank %}
+    <li class="social-link social-links__twitter">
+      <a class="social-link__link" href="{{ settings.show-twitter-link | escape }}">
+        {% render 'icon-library', id: 'icon-twitter' %}
+      </a>
+    </li>
+  {% endif %}
+  {% if settings.show-facebook-link != blank %}
+    <li class="social-link social-links__facebook">
+      <a class="social-link__link" href="{{ settings.show-facebook-link | escape }}">
+        {% render 'icon-library', id: 'icon-facebook' %}
+      </a>
+    </li>
+  {% endif %}
+  {% if settings.show-tumblr-link != blank %}
+    <li class="social-link social-links__tumblr">
+      <a class="social-link__link" href="{{ settings.show-tumblr-link | escape }}">
+        {% render 'icon-library', id: 'icon-tumblr' %}
+      </a>
+    </li>
+  {% endif %}
+  {% if settings.show-pinterest-link != blank %}
+    <li class="social-link social-links__pinterest">
+      <a class="social-link__link" href="{{ settings.show-pinterest-link | escape }}">
+        {% render 'icon-library', id: 'icon-pinterest' %}
+      </a>
+    </li>
+  {% endif %}
+  {% if settings.show-instagram-link != blank %}
+    <li class="social-link social-links__instagram">
+      <a class="social-link__link" href="{{ settings.show-instagram-link | escape }}">
+        {% render 'icon-library', id: 'icon-instagram' %}
+      </a>
+    </li>
+  {% endif %}
+  {% if settings.show-flickr-link != blank %}
+    <li class="social-link social-links__flickr">
+      <a class="social-link__link" href="{{ settings.show-flickr-link | escape }}">
+        {% render 'icon-library', id: 'icon-flickr' %}
+      </a>
+    </li>
+  {% endif %}
+  {% if settings.show-vimeo-link != blank %}
+    <li class="social-link social-links__vimeo">
+      <a class="social-link__link" href="{{ settings.show-vimeo-link | escape }}">
+        {% render 'icon-library', id: 'icon-vimeo' %}
+      </a>
+    </li>
+  {% endif %}
+  {% if settings.show-youtube-link != blank %}
+    <li class="social-link social-links__youtube">
+      <a class="social-link__link" href="{{ settings.show-youtube-link | escape }}">
+        {% render 'icon-library', id: 'icon-youtube' %}
+      </a>
+    </li>
+  {% endif %}
+</ul>

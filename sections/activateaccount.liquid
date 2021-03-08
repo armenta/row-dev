@@ -1,0 +1,26 @@
+<div class="activate-account-page">
+  <div class="activate-account-page__header">
+    <h1 class="activate-account-page__heading">{{ 'customer.activate.title' | t }}</h1>
+    <span class="activate-account-page__subheading">{{ 'customer.activate.subtitle' | t }}</span>
+  </div>
+
+  {% form 'activate_customer_password', class: 'customer-activate-account' %}
+    {{ form.errors | default_errors }}
+
+    <div class="customer-password">
+      <label class="customer-password__label" for="customer-password">{{ 'customer.password' | t }}</label>
+      <input class="customer-password__input" id="customer-password" type="password" value="" name="customer[password]">
+    </div>
+
+    <div class="customer-password-confirmation">
+      <label class="customer-password-confirmation__label" for="customer-password-confirmation">{{ 'customer.repeat_password' | t }}</label>
+      <input class="customer-password-confirmation__input" id="customer-password-confirmation" type="password" value="" name="customer[password_confirmation]">
+    </div>
+
+    <div class="customer-activate-account__actions">
+      <button class="customer-activate-account__submit" type="submit">{{ 'customer.activate.submit' | t }}</button>
+      <button class="customer-activate-account__cancel" type="submit" name="decline">{{ 'customer.activate.decline' | t }}</button>
+    </div>
+  {% endform %}
+</div>
+

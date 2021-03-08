@@ -1,0 +1,18 @@
+<section class="the-404">
+  <div class="the-404__header">
+    <h1 class="the-404__heading">{{ 'general.404.title' | t }}</h1>
+    <h2 class="the-404__subheading">{{ 'general.404.tag_line' | t }}</h2>
+  </div>
+
+  <p class="the-404__continue-shopping">
+    {{ 'general.404.search' | t }}
+    <a class="the-404__continue-shopping-link" href="{{ routes.all_products_collection_url }}">
+      {{ 'general.404.continue_shopping' | t }}
+    </a>
+  </p>
+
+  <form class="the-404__search-form" action="{{ routes.search_url }}" method="get">
+    <input name="q" type="text" placeholder="{{ 'layout.header.search_placeholder' | t }}" class="search-field styled-text-field">
+    <input type="submit" value="{{ 'layout.header.search_only' | t }}" class="the-404__search-form-submit" name="submit">
+  </form>
+</section>
