@@ -123,6 +123,7 @@
       {% if template contains 'product' or template == 'collection' or template contains 'article' %}
         {% render 'breadcrumbs' %}
       {% endif %}
+      {% section 'slideshow' %}
       {{ content_for_layout }}
     </div>
   </main>
