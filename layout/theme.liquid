@@ -25,6 +25,16 @@
     <link rel="preload" href="{{ 'customer_area.js' | shopify_asset_url }}" as="script">
   {% endif %}
 
+  {% if template contains 'index' %}
+    <script src="{{ 'tinyfade.js' | asset_url }}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('Tinyfade');
+        window.tf = new Tinyfade('#slider', 5000, 1000);
+      });
+    </script>
+  {% endif %}
+
   <title>
     {{- page_title -}}
 
@@ -98,7 +108,6 @@
     };
   </script>
   {% comment %}Inject theme-object end{% endcomment %}
-
 </head>
 
 <body class="
@@ -119,11 +128,14 @@
         has-payment-options
       {% endif %}
     ">
+
     <div class="main__wrapper">
       {% if template contains 'product' or template == 'collection' or template contains 'article' %}
         {% render 'breadcrumbs' %}
       {% endif %}
-      {% section 'slideshow' %}
+      {% if template contains 'index' %}
+        {% section 'slideshow' %}
+      {% endif %}
       {{ content_for_layout }}
     </div>
   </main>

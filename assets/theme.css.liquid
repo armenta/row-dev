@@ -9122,3 +9122,20 @@ body:not(.user-is-tabbing) .shopify-model-viewer-ui .shopify-model-viewer-ui__bu
 .social-links svg:hover {
   fill: {{ settings.link-color | color_darken: 20 }};
 }
+
+/*
+ * Tinyfade - responsive image slideshow backgrounds with plain javascript.
+ *
+ * Copyright (c) 2017 Moritz Marquardt
+ *
+ */
+ .tinyfade { position: relative; }
+ .tinyfade>* { position: relative; width: 100%; opacity: 0; float: left; pointer-events: none; }
+ .tinyfade>:not(:first-child) { position: absolute; top: 0; left: 0; right: 0; }
+ .tinyfade:not(.tinyfade-js)>:first-child { opacity: 1; pointer-events: auto; }
+ .tinyfade-current { z-index: 2; opacity: 1; pointer-events: auto; }
+ .tinyfade-last { z-index: 1; opacity: 1; }
+
+ /*
+ * END Tinyfade
+ *
