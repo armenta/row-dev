@@ -9135,7 +9135,7 @@ body:not(.user-is-tabbing) .shopify-model-viewer-ui .shopify-model-viewer-ui__bu
  .tinyfade:not(.tinyfade-js)>:first-child { opacity: 1; pointer-events: auto; }
  .tinyfade-current { z-index: 2; opacity: 1; pointer-events: auto; }
  .tinyfade-last { z-index: 1; opacity: 1; }
-
+ .tinyfade::after { content: ""; clear: both; display: table; }
  /*
  * END Tinyfade
  *
