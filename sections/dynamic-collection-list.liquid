@@ -4,13 +4,13 @@
   class="collection-list"
   data-section-id="{{ section.id }}"
 >
-  {% if section.settings.title != blank %}
+  <!-- {% if section.settings.title != blank %}
     <div class="collection-list__header">
       <h2 class="collection-list__heading">
         {{ section.settings.title | escape }}
       </h2>
     </div>
-  {% endif %}
+  {% endif %} -->
 
   <div class="collection-list__wrapper collection-list--{{ collection_count }}-columns">
     {% for block in section.blocks %}

@@ -22,14 +22,14 @@
     collection-list-item__image-wrap
     collection-list-item__image-wrap--{{ item_style }}
   {% endcapture %}
-  {% if onboarding %}
+  <!-- {% if onboarding %}
     <a class="{{ image_wrap_classes }}" href="#">
       {{ 'collection-1' |  placeholder_svg_tag: 'placeholder-svg' }}
     </a>
     {% if show_title %}
       <h2 class="collection-list-item__title">{{ 'onboarding.collection.title' | t }}</h2>
     {% endif %}
-  {% else %}
+  {% else %} -->
     <a class="{{ image_wrap_classes }}" href="{{ collection.url }}">
       {% assign image = collection.image %}
       {% assign alt = collection.image.alt %}
@@ -37,6 +37,12 @@
         {% assign image = collection.products.first.featured_media.preview_image %}
         {% assign alt = collection.title %}
       {% endunless %}
+
+      {% if show_title %}
+        <h2 class="collection-list-item__hovertitle">
+          {{ collection.title }}
+        </h2>
+      {% endif %}
 
       {% if image %}
         {%
@@ -53,11 +59,11 @@
       {% endif %}
 
     </a>
-    {% if show_title %}
+    <!-- {% if show_title %}
       <h2 class="collection-list-item__title">
         <a href="{{ collection.url }}">{{ collection.title }}</a>
       </h2>
-    {% endif %}
+    {% endif %} -->
     {% if show_product_count and collection.products_count > 0 %}
       <p class="collection-list-item__product-count">
         {{ 'collections.product_count' | t: count: collection.products_count }}
