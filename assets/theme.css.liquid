@@ -4270,10 +4270,13 @@ body:not(.user-is-tabbing) .tabs .grouped-content-trigger:focus {
   .collection-list__wrapper:first-child {
     margin-top: 3.5rem;
   }
-}
-@media screen and (min-width: 576px) {
   .collection-list__wrapper {
     grid-gap: 44px 36px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .collection-list-item:nth-child(1) .collection-list-item__hovertitle {
+    top: 330px;
   }
 }
 
@@ -7021,7 +7024,7 @@ body:not(.user-is-tabbing) .surface-pick-up-embed__modal-btn:focus {
 .collection-list-item__hovertitle {
   position: relative;
   z-index: 3;
-  top: 133px;
+  top: 130px;
   opacity: 0;
   -webkit-transition: opacity .4s ease-in-out;
   -moz-transition: opacity .4s ease-in-out;
