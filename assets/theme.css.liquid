@@ -6506,7 +6506,7 @@ body:not(.user-is-tabbing) .footer-newsletter__email[type=email] {
 @media screen and (min-width: 960px) {
   .site-header__heading {
     width: var(--header-logo-width, auto);
-    padding: 3rem 0;
+    padding: 1rem 0;
     margin: 0 auto;
   }
   .site-header--sticky .site-header__heading {
@@ -6530,7 +6530,7 @@ body:not(.user-is-tabbing) .footer-newsletter__email[type=email] {
   transition: opacity 0.2s ease-out;
 }
 .site-header--sticky .site-navigation {
-  padding: 0 7rem;
+  padding: 0 2rem;
 }
 .site-header--search-overlap.site-header--search-active .site-navigation {
   opacity: 0;
@@ -7021,10 +7021,6 @@ body:not(.user-is-tabbing) .surface-pick-up-embed__modal-btn:focus {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  -webkit-transition: all .4s ease-in;
-  -moz-transition: all .4s ease-in;
-  -o-transition: all .4s ease-in;
-  transition: all .4s ease-in;
   opacity: 0;
   z-index: 3;
   margin: 0;
@@ -7032,6 +7028,10 @@ body:not(.user-is-tabbing) .surface-pick-up-embed__modal-btn:focus {
 
 .collection-list-item a:hover .collection-list-item__hovertitle {
   opacity: 1;
+  -webkit-transition: all .4s ease-in;
+  -moz-transition: all .4s ease-in;
+  -o-transition: all .4s ease-in;
+  transition: all .4s ease-in;
 }
 
 .collection-list-item__product-count {
@@ -7647,7 +7647,7 @@ http://flickity.metafizzy.co
   position: relative;
   display: flex;
   align-items: center;
-  margin: 0 1rem;
+  margin: 0 2rem;
   padding: 0.5625rem 0;
   color: {{ settings.navigation-color }};
   text-decoration: none;
