@@ -385,6 +385,13 @@ html::after {
 }
 
 @font-face {
+  font-family: 'Bauer Bodoni Roman';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Bauer Bodoni Roman'), url('{{ "lte50438.woff" | asset_url }}') format('woff');
+  }
+
+@font-face {
   font-family: 'Bauer Bodoni Regular';
   src: url('{{ "bauer-bodoni-regular.eot" | asset_url }}');
   src: url('{{ "bauer-bodoni-regular.eot?#iefix" | asset_url }}') format('embedded-opentype'),
@@ -401,7 +408,7 @@ html::after {
   {%- comment -%}Normal{%- endcomment -%}
 
   {%- comment -%} assign fonts_font_heading_family = settings.font_heading.family | append: ',' | append: settings.font_heading.fallback_families {%- endcomment -%}
-  {%- assign fonts_font_heading_family = "'Bauer Bodoni Regular'" | append: ',' | append: settings.font_heading.fallback_families -%}
+  {%- assign fonts_font_heading_family = "'Bauer Bodoni Roman', 'Bauer Bodoni Regular'" | append: ',' | append: settings.font_heading.fallback_families -%}
   {%- assign fonts_font_heading_style = settings.font_heading.style -%}
   {%- assign fonts_font_heading_weight = settings.font_heading.weight | times: 1 -%}
   {{ settings.font_heading | font_face: font_display: fonts_font_heading_display }}
@@ -441,7 +448,7 @@ html::after {
   {%- comment -%}Normal{%- endcomment -%}
 
   {%- comment -%} assign fonts_font_body_family = settings.font_body.family | append: ',' | append: settings.font_body.fallback_families {%- endcomment -%}
-  {%- assign fonts_font_body_family = "'Bauer Bodoni Regular'" | append: ',' | append: settings.font_body.fallback_families -%}
+  {%- assign fonts_font_body_family = "'Bauer Bodoni Roman', 'Bauer Bodoni Regular'" | append: ',' | append: settings.font_body.fallback_families -%}
   {%- assign fonts_font_body_style = settings.font_body.style -%}
   {%- assign fonts_font_body_weight = settings.font_body.weight | times: 1 -%}
   {{ settings.font_body | font_face: font_display: fonts_font_body_display }}
@@ -481,7 +488,7 @@ html::after {
   {%- comment -%}Normal{%- endcomment -%}
 
   {%- comment -%} assign fonts_font_accent_family = settings.font_accent.family | append: ',' | append: settings.font_accent.fallback_families {%- endcomment -%}
-  {%- assign fonts_font_accent_family = "'Bauer Bodoni Regular'" | append: ',' | append: settings.font_accent.fallback_families -%}
+  {%- assign fonts_font_accent_family = "'Bauer Bodoni Roman', 'Bauer Bodoni Regular'" | append: ',' | append: settings.font_accent.fallback_families -%}
   {%- assign fonts_font_accent_style = settings.font_accent.style -%}
   {%- assign fonts_font_accent_weight = settings.font_accent.weight | times: 1 -%}
   {{ settings.font_accent | font_face: font_display: fonts_font_accent_display }}
@@ -8590,7 +8597,9 @@ body:not(.user-is-tabbing) .product-gallery--media-thumbnail {
 .product-item__price {
   display: inline-block;
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.05rem;
 }
 .product-item__price.added-to-cart {
   position: relative;
