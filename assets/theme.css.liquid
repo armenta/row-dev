@@ -4274,11 +4274,6 @@ body:not(.user-is-tabbing) .tabs .grouped-content-trigger:focus {
     grid-gap: 44px 36px;
   }
 }
-@media screen and (max-width: 767px) {
-  .collection-list-item:nth-child(1) .collection-list-item__hovertitle {
-    top: 330px;
-  }
-}
 
 .collection-list--1-columns {
   grid-template-columns: 1fr;
@@ -7021,16 +7016,23 @@ body:not(.user-is-tabbing) .surface-pick-up-embed__modal-btn:focus {
   font-size: var(--font-size-heading-3);
 }
 
-.collection-list-item__hovertitle {
-  position: relative;
-  z-index: 3;
-  top: 130px;
+.collection-list-item a .collection-list-item__hovertitle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transition: all .6s ease;
+  -moz-transition: all .6s ease;
+  -o-transition: all .6s ease;
+  transition: all .6s ease;
   opacity: 0;
-  -webkit-transition: opacity .4s ease-in-out;
-  -moz-transition: opacity .4s ease-in-out;
-  -o-transition: opacity .4s ease-in-out;
-  transition: opacity .4s ease-in-out;
-  margin: 1.125rem 0 0;
+  z-index: 3;
+  margin: 0;
+}
+
+.collection-list-item a:hover .collection-list-item__hovertitle {
+
+  opacity: 1;
 }
 
 .collection-list-item__product-count {
