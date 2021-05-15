@@ -1,0 +1,67 @@
+<article class="product-item">
+  {% comment %}
+  We have to re-assign this variable depending on the
+  page has access to either the product shopify object or
+  the item shopify object (used on search pages)
+  {% endcomment %}
+
+  {% assign item = item | default: nil %}
+  {% assign prod = prod | default: nil %}
+
+  {% assign itemType = product %}
+  {% if template contains 'search' %}
+    {% assign itemType = item %}
+  {% elsif template contains 'product' %}
+    {% assign itemType = prod %}
+  {% endif %}
+
+  <div class="product-item__image">
+    <a class="product-item__image-link" href="{{ itemType.url | within: collection }}">
+      {% capture current %}{% cycle 1, 2, 3, 4 %}{% endcapture %}
+      {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+    </a>
+
+    {% unless template contains 'search' %}
+      {% if settings.quick_shop %}
+        <span class="product-item__quick-shop-button-wrapper">
+        {% assign firstVariant = itemType.selected_or_first_available_variant %}
+
+        <button
+          {% if itemType.available == false %}
+            title="{{ 'product.phrases.unavailable' | t }}"
+          {% else %}
+            data-quickshop-trigger
+            title="{{ 'product.phrases.add' | t }}"
+          {% endif %}
+          class="product-item__quick-shop-button
+            {% if itemType.available %}available{% else %}unavailable{% endif %}
+          "
+        >
+          {{ 'product.quick_shop.quickshop' | t }}
+        </button>
+        </span>
+      {% endif %}
+    {% endunless %}
+  </div>
+
+  <div class="product-item__info" id="product-info-{{ itemType.id }}">
+    {% if settings.prod_card_show_vendor %}
+      <div class="product-item__vendor">
+        {{ itemType.vendor }}
+      </div>
+    {% endif %}
+
+    <h3 class="product-item__title">
+      <a href="{{ itemType.url | within: collection }}">
+        {{ 'onboarding.products.product_name' | t }}
+      </a>
+    </h3>
+
+    <p class="product-item__price">
+      {% if itemType.price_varies %}
+        {{ 'collections.product_item.from' | t }}
+      {% endif %}
+      <span class="money">{{ 'onboarding.products.product_price' | t }}</span>
+    </p>
+  </div>
+</article>

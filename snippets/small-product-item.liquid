@@ -1,0 +1,169 @@
+{% comment %}
+We have to re-assign this variable depending on the
+page has access to either the product shopify object or
+the item shopify object (used on search pages)
+{% endcomment %}
+
+{% assign item = item | default: nil %}
+{% assign prod = prod | default: nil %}
+
+{% assign itemType = product %}
+{% if template contains 'search' %}
+  {% assign itemType = item %}
+{% elsif template contains 'product' %}
+  {% assign itemType = prod %}
+{% endif %}
+
+{% comment %}
+TODO:
+- Aspect ratio setting
+{% endcomment %}
+
+{% assign show_second_image = settings.secondary_img_hover %}
+
+{% capture to_hash %}
+  {{ shop.money_format }}
+  {{ settings.qs_enable_cart_redirection }}
+  {{ settings.show_payment_button }}
+  {{ settings.qs_quantity_selector }}
+  {{ settings.quickshop_show_variant_labels }}
+  {{ settings.quickshop_show_vendor }}
+  {{ settings.quickshop_show_social_sharing_buttons }}
+  {{ settings.quickshop_gallery_image_zoom }}
+  {{ settings.quickshop_gallery_video_autoplay }}
+  {{ settings.quickshop_gallery_video_looping }}
+  {{ itemType | json }}
+{% endcapture %}
+{% assign to_hash = to_hash | replace: ' ', '' | sha256 %}
+
+{% assign image_style_class = "product-item__image--" | append: settings.prod_card_aspect_ratio %}
+
+<article class="product-item" data-product-item-id="{{ itemType.id }}">
+  <div class="product-item__image {{ image_style_class }}" data-image-wrapper>
+    <a class="product-item__image-link" href="{{ itemType.url | within: collection }}">
+      {% if itemType.featured_media %}
+        {% if show_second_image and itemType.media.size > 1 %}
+          {%
+            render 'rimg',
+            img: itemType.media[1].preview_image,
+            size: '450x',
+            lazy: true,
+            class: 'product-item__image-alternate'
+          %}
+        {% endif %}
+        {%
+          render 'rimg',
+          img: itemType.featured_media.preview_image,
+          size: '450x',
+          lazy: true,
+          class: 'product-item__image-primary'
+          canvas: true
+        %}
+      {% else %}
+        {%- capture index -%}
+          {%- cycle '1', '2', '3', '4', '5', '6' -%}
+        {%- endcapture -%}
+        {{ "product-" | append: index | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+      {% if settings.display_banner %}
+        {% if itemType.available == false %}
+          <span class="product-item__badge--sold-out">
+            {{ 'collections.product_item.sold_out' | t }}
+          </span>
+        {% elsif itemType.compare_at_price_min > itemType.price_min %}
+          <span class="product-item__badge--sale">
+            {{ 'collections.product_item.on_sale' | t }}
+          </span>
+        {% endif %}
+      {% endif %}
+    </a>
+
+    {% if settings.quick_shop %}
+      <span class="product-item__quick-shop-button-wrapper">
+      {% assign firstVariant = itemType.selected_or_first_available_variant %}
+
+      <button
+        data-quickshop-trigger
+        class="product-item__quick-shop-button
+          {% if itemType.available %}available{% else %}unavailable{% endif %}
+        "
+      >
+        {{ 'product.quick_shop.quickshop' | t }}
+      </button>
+      </span>
+    {% endif %}
+  </div>
+
+  <div class="product-item__info" id="product-info-{{ itemType.id }}">
+    {% if settings.prod_card_show_vendor %}
+      <div class="product-item__vendor">
+        {{ itemType.vendor | link_to_vendor }}
+      </div>
+    {% endif %}
+    <h3 class="product-item__title">
+      <a href="{{ itemType.url | within: collection }}">
+        {{ itemType.title }}
+      </a>
+    </h3>
+
+    {% if itemType.compare_at_price_min > itemType.price_min %}
+      <p
+        class="product-item__price sale"
+        data-price="{{ itemType.price_min }}"
+        data-price-was="{{ itemType.compare_at_price_min }}">
+        {% if itemType.price_varies %}
+          {{ 'collections.product_item.from' | t }}
+        {% else %}
+          {{ 'collections.product_item.now' | t }}
+        {% endif %}
+        <span class="money">{{ itemType.price_min | money }}</span>
+        <span class="product-item__price-was money">{{ itemType.compare_at_price_min | money }}</span>
+      </p>
+    {% else %}
+      <p class="product-item__price">
+        {% if itemType.price_varies %}
+          {{ 'collections.product_item.from' | t }}
+        {% endif %}
+        <span class="money">{{ itemType.price_min | money }}</span>
+      </p>
+    {% endif %}
+    {% assign variant_for_unit_price = itemType.variants | sort: 'price' | first %}
+    {% if variant_for_unit_price.unit_price_measurement %}
+      {% capture total_quantity %}<span>{{ variant_for_unit_price.unit_price_measurement.quantity_value }}{{ variant_for_unit_price.unit_price_measurement.quantity_unit }}</span>{% endcapture %}
+      {% capture unit_price %}<span>{{ variant_for_unit_price.unit_price | money }}</span>{% endcapture %}
+      {% capture unit_measure %}<span>{%- if variant_for_unit_price.unit_price_measurement.reference_value != 1 -%}{{ variant_for_unit_price.unit_price_measurement.reference_value }}{%- endif %}{{ variant_for_unit_price.unit_price_measurement.reference_unit }}</span>{% endcapture %}
+
+      <div class="product-item__unit-price">
+        {{ 'product.unit_pricing.price_per_unit_html' | t: total_quantity: total_quantity, unit_price: unit_price, unit_measure: unit_measure | strip_newlines }}
+      </div>
+    {% endif %}
+
+    {% if settings.prod_card_discount_label %}
+      {% if itemType.compare_at_price_min > itemType.price_min %}
+        {% capture percentageSaved %}
+          {{ itemType.compare_at_price_min | minus: itemType.price_min | times: 100 | divided_by: itemType.compare_at_price_min }}%
+        {% endcapture %}
+
+        <div class="product-item__savings">
+          {{ percentageSaved }} {{ 'collections.product_item.off' | t }}
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  {% if settings.quick_shop %}
+    {% assign quickshop_url = itemType.url | within: collection %}
+    {% if template contains 'search' %}
+      {% assign quickshop_url = itemType.url | split: '?' %}
+      {% assign quickshop_url = quickshop_url[0] %}
+    {% endif %}
+    <div
+      class="product-item__quickshop"
+      data-product-quickshop="{{ itemType.id }}"
+      data-product-quickshop-url="{{ quickshop_url }}"
+      data-product-quickshop-hash="{{ to_hash }}"
+    >
+      <div class="quickshop__loading-state">{% render 'icon-library', id: 'icon-spinner' %}</div>
+    </div>
+  {% endif %}
+</article>

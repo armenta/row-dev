@@ -1,0 +1,23 @@
+
+<span class="search-toggle-button">
+
+  <span class="search-toggle-title">
+    {% render 'icon-library', id: 'icon-search-2' %}
+    {{ 'layout.header.search_only' | t }}
+  </span>
+
+  <span class="search-browse-parent-outline">
+    <div class="search-browse-container">
+      <ul>
+
+        <li class="only-search clearfix">
+          <form class="search-form" action="{{ routes.search_url }}" method="get">
+            <input name="q" type="text" placeholder="{{ 'layout.header.placeholder' | t }}" class="search-field styled-text-field">
+            <input type="submit" value="{{ 'layout.header.search_only' | t }}" class="search-submit action-btn accent-text" name="submit">
+          </form>
+        </li>
+
+      </ul>
+    </div>
+  </span>
+</span>

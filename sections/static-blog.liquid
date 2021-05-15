@@ -1,0 +1,133 @@
+{% assign column_count = section.settings.blog_column_layout %}
+
+<script
+  type="application/json"
+  data-section-type="static-blog"
+  data-section-id="{{ section.id }}"
+  data-section-data
+>
+  {
+    "enable_sharing": {{ section.settings.social_share | json }}
+  }
+</script>
+
+{% paginate blog.articles by section.settings.posts-per-page %}
+
+  <section class="blog-page">
+    {% if current_tags %}
+      {% capture page_title %}{{ blog.title | link_to: blog.url }} / {{ current_tags.first }}{% endcapture %}
+    {% else %}
+      {% assign page_title = blog.title %}
+    {% endif %}
+
+    <div class="blog-page__header">
+      <h1>
+        {{ page_title }}
+        {% if section.settings.show_rss %}
+          <a class="blog-page__rss" href="{{ blog.url }}.atom">{% render 'icon-library', id: 'icon-rss' %}</a>
+        {% endif %}
+      </h1>
+    </div>
+
+    {% if section.settings.show_tags %}
+      {% if blog.tags.size > 0 %}
+        <div class="blog-page__tags">
+          {% for tag in blog.tags %}
+            {{ tag.title | link_to_tag: tag }}
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endif %}
+
+    <ul class="blog-page__posts blog-page__posts--{{ column_count }}">
+      {% for article in blog.articles %}
+        <li class="blog-page__post">
+          {% render 'blog-article',
+            article: article,
+            article_excerpt: true,
+            show_date: section.settings.show_date,
+            show_author: section.settings.show_author,
+            show_share: section.settings.social_share,
+            show_tags: section.settings.show_post_tags
+          %}
+        </li>
+      {% endfor %}
+    </ul>
+
+    {% render 'pagination', paginate: paginate %}
+
+  </section>
+{% endpaginate %}
+
+{% schema %}
+{
+  "name": "Blog pages",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "blog_column_layout",
+      "label": "Columns",
+      "options": [
+        {
+          "value": "one-column",
+          "label": "One column"
+        },
+        {
+          "value": "two-column",
+          "label": "Two columns"
+        }
+      ],
+      "default" : "one-column"
+    },
+    {
+      "type": "range",
+      "id": "posts-per-page",
+      "label": "Posts per page",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Blog title"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rss",
+      "label": "Show RSS link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show all post tags"
+    },
+    {
+      "type": "header",
+      "content": "Blog posts"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_post_tags",
+      "label": "Show post tags"
+    }
+  ]
+}
+
+{% endschema %}

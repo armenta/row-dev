@@ -1,0 +1,62 @@
+{% comment %}
+  Header Controls needed to be placed outside of the header because there is a bug in Webkit which
+  does not allow for sticky elements within other sticky elements. It was causing jitter on iOS
+  devices and Safari.
+{% endcomment %}
+
+<nav
+  class="header-controls"
+  data-header-controls
+  aria-label="{{ general.accessibility.controls | t }}"
+>
+  <div class="header-controls__wrapper">
+    <div class="header-controls__search">
+      <form class="header-controls__search-form" action="{{ routes.search_url }}" method="get">
+        <input
+          name="q"
+          type="search"
+          placeholder="{{ 'layout.header.search_placeholder' | t }}"
+          class="header-controls__search-field"
+          data-search-input
+        >
+        <button type="submit" aria-label="{{ 'layout.header.search_only' | t }}" class="header-controls__search-submit">
+          {% render 'icon-library', id: 'icon-search' %}
+        </button>
+      </form>
+    </div>
+    <div class="header-controls__mobile-trigger">
+      <button
+        class="header-controls__mobile-button"
+        aria-label="{{ 'general.accessibility.menu' | t }}"
+        data-mobile-nav-trigger
+      >
+        {% render 'icon-library', id: 'icon-mobile-nav' %}
+      </button>
+    </div>
+    <div class="header-controls__account-cart">
+      {% if shop.customer_accounts_enabled %}
+        {% if customer %}
+          <a href="{{ routes.account_url }}" class="header-controls__account">
+            {% render 'icon-library', id: 'icon-user' %}
+            <span class="visually-hidden">{{ 'general.accessibility.account' | t }}</span>
+          </a>
+        {% else %}
+          <a href="{{ routes.account_login_url }}" class="header-controls__account">
+            {% render 'icon-library', id: 'icon-user' %}
+            <span class="visually-hidden">{{ 'general.accessibility.login' | t }}</span>
+          </a>
+        {% endif %}
+      {% endif %}
+
+      <a href="{{ routes.cart_url }}" class="header-controls__cart">
+        {% render 'icon-library', id: 'icon-bag' %}
+        <span class="visually-hidden">{{ 'general.accessibility.cart' | t }}</span>
+        <span class="header-controls__cart-count" data-header-cart-count>
+          {% if cart.item_count > 0 %}
+            ({{ cart.item_count }})
+          {% endif %}
+        </span>
+      </a>
+    </div>
+  </div>
+</nav>

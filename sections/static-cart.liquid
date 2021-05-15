@@ -1,0 +1,93 @@
+<script
+  type="application/json"
+  data-section-type="static-cart"
+  data-section-id="{{ section.id }}"
+>
+</script>
+
+{% assign cart_notes = section.settings.show_cart_notes %}
+
+<section class="cart">
+  <div class="cart__header">
+    <h1>{{ 'cart.general.title' | t }}</h1>
+    {% unless cart.item_count > 0 %}
+      <h2>{{ 'cart.general.empty' | t }}</h2>
+    {% endunless %}
+  </div>
+
+  {% if cart.item_count > 0 %}
+    <form action="{{ routes.cart_url }}" method="post" class="cart-form">
+
+      {% render 'cart-table', cart: cart %}
+
+      <div class="cart__footer">
+        {% if cart_notes %}
+          <div class="cart__notes">
+            <label for="cart-notes-area">{{ 'cart.general.special_instructions' | t }}</label>
+            <textarea class="styled-text-field" id="cart-notes-area" name="note">{{ cart.note }}</textarea>
+          </div>
+        {% endif %}
+
+        <div class="cart__totals">
+          {% render 'cart-discounts', cart: cart %}
+          <h2 class="cart__subtotal">
+            <span class="subtotal">
+              {{ 'cart.general.subtotal' | t }}
+            </span>
+            <span class="money total-price" data-total-price>
+              {{ cart.total_price | money }}
+            </span>
+          </h2>
+          <button
+            class="cart__checkout-button"
+            type="submit"
+            name="checkout"
+            value="{{ 'cart.general.checkout' | t }}"
+          >
+            {% if section.settings.enable_checkout_lock_icon %}
+              {% render 'icon-library', id: 'icon-lock' %}
+            {% endif %}
+
+            <span>{{ 'cart.general.checkout' | t }}</span>
+          </button>
+
+          {% if additional_checkout_buttons %}
+            <div class="additional-checkout-buttons">
+              {{ content_for_additional_checkout_buttons }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+    </form>
+  {% endif %}
+
+  {% if section.settings.use_continue_shopping %}
+    <a href="{{ routes.all_products_collection_url }}" class="cart__continue-shopping">{{ 'general.continue_shopping' | t }} &rarr;</a>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_checkout_lock_icon",
+      "label": "Show lock icon on checkout button",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart_notes",
+      "label": "Enable order notes"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_continue_shopping",
+      "label": "Show 'continue shopping' button"
+    }
+  ]
+}
+
+{% endschema %}

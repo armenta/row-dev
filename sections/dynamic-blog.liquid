@@ -1,0 +1,100 @@
+{% assign onboard = false %}
+
+{% assign blog = blogs[section.settings.blog] %}
+{% assign layout = section.settings.blog_layout %}
+
+{% if section.settings.blog == blank %}
+  {% assign onboard = true %}
+{% endif %}
+
+<section
+  class="blog-posts"
+  data-section-id="{{ section.id }}"
+>
+  {% if section.settings.title != blank %}
+    <div class="blog-posts__header">
+      <h2 class="blog-posts__heading">
+        {{ section.settings.title | escape }}
+      </h2>
+    </div>
+  {% endif %}
+
+  <ul class="blog-posts__wrapper blog-posts--{{ layout }}-column">
+    {% if blog != 'none' and blog.articles.size > 0 %}
+      {% for article in blog.articles limit: layout %}
+        <li class="blog-posts__post">
+          {% render 'blog-article',
+            article: article,
+            article_excerpt: true,
+            show_date: section.settings.show_date,
+            show_author: section.settings.show_author,
+            show_tags: false
+          %}
+        </li>
+      {% endfor %}
+    {% else %}
+      {% for i in (1..layout) %}
+        <li class="blog-posts__post">
+          {% render 'blog-article',
+            article: nil,
+            article_excerpt: true,
+            show_date: section.settings.show_date,
+            show_author: section.settings.show_author,
+            show_tags: false
+          %}
+        </li>
+      {% endfor %}
+    {% endif%}
+  </ul>
+</section>
+
+{% schema %}
+{
+  "name": "Blog posts",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Blog posts"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "range",
+      "id": "blog_layout",
+      "label": "Posts",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "category": "Blog",
+      "name": "Blog posts",
+      "settings": {
+        "blog": "",
+        "blog_layout": 1
+      }
+    }
+  ]
+}
+
+{% endschema %}

@@ -1,0 +1,153 @@
+{% assign layout = section.settings.layout %}
+{% assign enable_zoom = section.settings.gallery_image_zoom %}
+{% assign enable_cart_redirection = section.settings.enable_cart_redirection %}
+{% assign show_quantity_selector = section.settings.show_quantity_selector %}
+{% assign show_variant_labels = section.settings.show_variant_labels %}
+{% assign show_vendor = section.settings.show_vendor %}
+{% assign show_social_sharing_buttons = section.settings.show_social_sharing_buttons %}
+
+{% assign variant = product.selected_or_first_available_variant %}
+
+<script
+  type="application/json"
+  data-section-type="static-product"
+  data-section-id="{{ section.id }}"
+  data-section-data
+>
+  {
+    "product": {{ product | json }},
+    "layout": {{ layout | json }},
+    "gallery_image_zoom": {{ section.settings.gallery_image_zoom | json }},
+    "gallery_video_autoplay": {{ section.settings.gallery_video_autoplay | json }},
+    "gallery_video_looping": {{ section.settings.gallery_video_looping | json }},
+    "enable_cart_redirection": {{ enable_cart_redirection | json }},
+    "show_quantity_selector": {{ show_quantity_selector | json }},
+    "show_variant_labels": {{ show_variant_labels | json }},
+    "show_vendor": {{ show_vendor | json }},
+    "show_social_sharing_buttons": {{ show_social_sharing_buttons | json }},
+    "addToCartText": {{ 'product.add_to_cart.submit' | t | json }},
+    "enableHistory": true,
+    "linkedOptions": true,
+    "soldOutText": {{ 'product.add_to_cart.sold_out' | t | json }},
+    "unavailableText": {{ 'product.add_to_cart.unavailable' | t | json }},
+    "atc_message_success": {{ 'product.add_to_cart.success_html' | t | json }},
+    "atc_cart_link": {{ 'product.add_to_cart.cart_link' | t | json }},
+    "atc_continue_shopping": {{ 'general.continue_shopping' | t | json }},
+    "atc_checkout_link": {{ 'product.add_to_cart.checkout_link' | t | json }}
+  }
+</script>
+
+<section
+  class="
+    product-page
+    clearfix
+    {{ layout }}
+    {% if product.images.size > 0 %}product-showcase{% endif %}
+  "
+  data-section-id="{{ section.id }}"
+  data-section-type="product-template"
+  id="content"
+>
+  {%
+    render 'product',
+    product: product,
+    show_payment_button: section.settings.show_payment_button,
+    layout: layout,
+    show_vendor: show_vendor,
+    onboarding: onboarding,
+    enable_zoom: enable_zoom,
+    variant: variant,
+    show_quantity_selector: show_quantity_selector,
+    show_variant_labels: show_variant_labels,
+    show_social_sharing_buttons: show_social_sharing_buttons
+  %}
+</section>
+
+{% schema %}
+{
+  "name": "Product pages",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "one-column",
+          "label": "One column"
+        },
+        {
+          "value": "two-column",
+          "label": "Two columns"
+        }
+      ],
+      "default" : "one-column"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_cart_redirection",
+      "label": "Enable cart redirection",
+      "info": "Automatically sends users to the Cart page after adding a product.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_button",
+      "label": "Show dynamic checkout button",
+      "info": "Each customer will see their preferred payment method from those available on your store, such as PayPal or Apple Pay. [Learn more](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quantity_selector",
+      "label": "Show quantity selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_variant_labels",
+      "label": "Show variant labels"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_sharing_buttons",
+      "label": "Show social sharing buttons"
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "paragraph",
+      "content": "Learn more about [media types](https://help.shopify.com/en/manual/products/product-media/product-media-types)"
+    },
+    {
+      "type": "checkbox",
+      "id": "gallery_image_zoom",
+      "label": "Enable image zoom"
+    },
+    {
+      "type": "checkbox",
+      "id": "gallery_video_autoplay",
+      "label": "Enable video autoplay",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "gallery_video_looping",
+      "label": "Enable video looping",
+      "default": true
+    }
+  ]
+}
+
+{% endschema %}

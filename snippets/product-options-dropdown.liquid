@@ -1,0 +1,48 @@
+{% comment %}
+  @param product {Product} Shopify product for which to render options
+{% endcomment %}
+{% if product.has_only_default_variant %}
+  <input
+    name="id"
+    value="{{ product.variants[0].id }}"
+    type="hidden"
+  />
+{% else %}
+  {% comment %}
+    Variant select. This is the source-of-truth for which variant to add.
+  {% endcomment %}
+  <select name="id" class="no-js-required" data-variants>
+    {% for variant in product.variants %}
+      <option value="{{ variant.id }}">
+        {{ variant.title }} - {{ variant.price | money }}
+      </option>
+    {% endfor %}
+  </select>
+
+  {%- capture form_id -%}{% increment form_id %}{%- endcapture -%}
+  {%- for option in product.options_with_values -%}
+    {% assign option_index = forloop.index0 %}
+    {%- capture option_id -%}{{ section.id }}-single-option-form-{{ form_id }}-{{ option_index }}{%- endcapture -%}
+
+    <div
+      class="
+        product-details__option-wrapper js-required
+        {% if forloop.last and show_quantity_selector == false %}product-details__option-wrapper--last{% endif %}
+      "
+    >
+      <label class="product-details__option-name">{{ option.name }}</label>
+      <select
+        id="{{ option_id }}"
+        name=""
+        data-product-option="{{ option_index }}"
+      >
+        {% for value in option.values %}
+          <option
+            value="{{ value | escape }}"
+            {% if option.selected_value == value %}selected{% endif %}
+          >{{ value }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  {%- endfor -%}
+{% endif %}

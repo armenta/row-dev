@@ -1,0 +1,125 @@
+<ul
+  class="navigation-desktop"
+  data-navigation-desktop
+>
+  {% for link in linklists[section.settings.main_menu].links %}
+    {% assign has_tier_2 = false %}
+    {% if link.links.size > 0 %}
+      {% assign has_tier_2 = true %}
+    {% endif %}
+    {% assign show_meganav = false %}
+
+    {% if section.blocks.size > 0 and link.links.size > 0 %}
+      {% for block in section.blocks %}
+        {% if block.type == 'megamenu' %}
+          {% assign meganav_trigger = block.settings.meganav_trigger | handle | strip %}
+        {% endif %}
+
+        {% if link.title == meganav_trigger or link.handle == meganav_trigger %}
+          {% assign show_meganav = true %}
+          {% assign shopify_attributes = block.shopify_attributes %}
+          {% assign meganav_block = block %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    {% assign class_root = 'desktop' %}
+    {% if show_meganav %}
+      {% assign class_root = 'meganav' %}
+    {% endif %}
+
+    <li
+      class="navigation-desktop__tier-1-item"
+      {% if has_tier_2 %}data-nav-desktop-parent{% endif %}
+      {% if show_meganav %}data-nav-desktop-meganav{% endif %}
+    >
+      <a
+        href="{{ link.url }}"
+        class="navigation-desktop__tier-1-link"
+        data-nav-desktop-link
+        {% if has_tier_2 %}aria-haspopup="true"{% endif %}
+      >
+        {{ link.title }}
+        {% if has_tier_2 %}
+          {% render 'icon-library', id: 'icon-chevron-small' %}
+        {% endif %}
+      </a>
+
+      {% if has_tier_2 %}
+        {% if show_meganav %}
+          <div
+            class="navigation-meganav"
+            data-nav-desktop-submenu
+            data-meganav-id={{ meganav_block.id }}
+            {{ shopify_attributes }}
+            data-nav-desktop-submenu
+            data-navigation-tier-2
+          >
+        {% endif %}
+
+        <ul
+          class="
+            {% if show_meganav %}
+              navigation-meganav__grid
+              navigation-meganav__grid--{{ link.links.size }}-items
+            {% else %}
+              navigation-desktop__tier-2
+            {% endif %}
+          "
+          {% unless show_meganav %}
+            data-nav-desktop-submenu
+            data-navigation-tier-2
+          {% endunless %}
+        >
+          {% for link_tier_2 in link.links %}
+            {% assign has_tier_3 = false %}
+            {% if link_tier_2.links.size > 0 %}
+              {% assign has_tier_3 = true %}
+            {% endif %}
+            <li
+              class="navigation-{{ class_root }}__tier-2-item"
+              {% if has_tier_3 %}data-nav-desktop-parent{% endif %}
+            >
+              <a
+                href="{{ link_tier_2.url }}"
+                class="navigation-{{ class_root }}__tier-2-link"
+                data-nav-desktop-link
+                {% if has_tier_3 and show_meganav == false %}aria-haspopup="true"{% endif %}
+              >
+                {{ link_tier_2.title }}
+                {% if has_tier_3 and show_meganav == false %}
+                  {% render 'icon-library', id: 'icon-chevron-small' %}
+                {% endif %}
+              </a>
+
+              {% if has_tier_3 %}
+                <ul
+                  class="navigation-{{ class_root }}__tier-3"
+                  data-nav-desktop-submenu
+                  data-navigation-tier-3
+                >
+                  {% for link_tier_3 in link_tier_2.links %}
+                    <li
+                      class="navigation-{{ class_root }}__tier-3-item"
+                    >
+                      <a
+                        href="{{ link_tier_3.url }}"
+                        class="navigation-{{ class_root }}__tier-3-link"
+                      >
+                        {{ link_tier_3.title }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+
+        {% if show_meganav %}
+          </div>
+        {% endif %}
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>

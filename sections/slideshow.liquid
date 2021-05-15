@@ -1,0 +1,56 @@
+<script
+  type="application/json"
+  data-section-type="dynamic-fades"
+  data-section-id="{{ section.id }}"
+  data-section-data
+>
+</script>
+
+<section id="slider" class="tinyfade">
+  {% for block in section.blocks %}
+
+    {%- if block.settings.link != blank -%}
+      <a href="{{ block.settings.link }}">
+    {%- endif -%}
+        
+      {%- if block.settings.image != blank -%}
+        {%
+          render 'rimg',
+          img: block.settings.image,
+          alt: alt
+        %}
+      {%- endif -%}
+
+    {%- if block.settings.link != blank -%}
+      </a>
+    {%- endif -%}
+
+  {% endfor %}
+</section>
+<div class="tinyfadeclear"></div>
+
+{% schema %}
+  {
+    "name": "Fades",
+    "class": "fades",
+    "blocks": [
+    {
+      "type": "feature",
+      "name": "Gallery Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "940 x 444px .jpg recommended"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ]
+  }
+{% endschema %}

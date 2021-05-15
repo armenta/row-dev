@@ -1,0 +1,72 @@
+{% paginate search.results by 18 %}
+  <div id="static-search-results" class="search-page">
+
+    <div class="search-page__header">
+      {% if search.performed %}
+        {% capture results %}
+          {{ 'search.results' | t: count: search.results_count }}
+        {% endcapture %}
+        {% capture searchTerms %}<em>&lsquo;{{ search.terms }}&rsquo;</em>{% endcapture %}
+        <h1>{{ 'search.search_results.title_html' | t: results: results, results_count: search.results_count, terms: searchTerms }}</h1>
+      {% else %}
+        <h1>{{ 'search.general.search' | t }}</h1>
+      {% endif %}
+    </div>
+
+    <script
+      type="application/json"
+      data-section-type="static-search-results"
+      data-section-id="static-search-results"
+    >
+    </script>
+
+    <section id="page-content">
+
+      {% if search.performed %}
+        {% if search.results.size > 0 %}
+
+          <ul class="search-results">
+            {% for item in search.results %}
+            <li class="search-results__result {% if item.object_type == 'product' %}search-results__product-result{% else %}search-results__article-result{% endif %} {% if forloop.first %}first{% endif %} {% if forloop.last %}last{% endif %}">
+                {% if item.object_type == 'product' %}
+                  {% render 'small-product-item', item: item %}
+                {% else %}
+                  <article class="search-results__article">
+                    <a href="{{ item.url }}">
+                      <div class="search-results__article-image">
+                        {% if item.image %}
+                            {%
+                              render 'rimg',
+                              img: item.image,
+                              size: '1024x1024',
+                              lazy: true,
+                              canvas: true,
+                            %}
+                        {% endif %}
+                      </div>
+                      <h3 class="search-results__article-title">{{ item.title }}</h3>
+                      <div class="search-results__article-date">{{ item.published_at | date: format: 'long_month' }}</div>
+                    </a>
+                  </article>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+
+        {% else %}
+
+          <a href="{{ routes.root_url }}" class="search-results__return">{{ 'search.search_results.return' | t }}</a>
+
+        {% endif %}
+      {% else %}
+        <div class="search-results__empty">{{ 'search.search_results.empty' | t }}</div>
+        <a href="{{ routes.root_url }}" class="search-results__return">{{ 'search.search_results.return' | t }}</a>
+      {% endif %}
+
+      {% if paginate.previous or paginate.next %}
+        {% render 'pagination', paginate: paginate %}
+      {% endif %}
+
+    </section>
+  </div>
+{% endpaginate %}

@@ -1,0 +1,156 @@
+<script
+  type="application/json"
+  data-section-type="dynamic-promotions"
+  data-section-id="{{ section.id }}"
+>
+</script>
+
+<div data-section-id="{{ section.id }}">
+  <section
+    class="promotion-blocks"
+  >
+    {% if section.settings.title != blank %}
+      <div class="promotion-blocks__header">
+        <h2 class="promotion-blocks__heading">
+          {{ section.settings.title | escape }}
+        </h2>
+      </div>
+    {% endif %}
+
+    <div class="promotion-blocks__wrapper promotion-blocks--{{ section.blocks.size }}-columns">
+      {% for block in section.blocks %}
+        {% assign heading = block.settings.title | escape %}
+        {% assign caption = block.settings.caption %}
+        {% assign url = block.settings.url %}
+        {% assign link = block.settings.cta_title | escape %}
+        {% assign text_color = block.settings.text_color %}
+        {% assign image = block.settings.image %}
+
+          <div
+            class="promotion-block promotion-block--text-color-{{ text_color }}"
+            data-promotion-block
+            {{ block.shopify_attributes }}
+          >
+            <div class="promotion-block__image" data-promotion-image>
+              {% if image %}
+                {%
+                  render 'rimg',
+                  img: image,
+                  size: '1400x',
+                  lazy: true,
+                  crop: 'center',
+                  canvas: true
+                %}
+              {% else %}
+                {{ 'collection-1' |  placeholder_svg_tag: 'placeholder-svg' }}
+              {% endif %}
+            </div>
+
+            {% if url != blank %}
+              <a class="promotion-block__link" href="{{ url }}"></a>
+            {% endif %}
+
+            <div class="promotion-block__content" data-promotion-content>
+              {% if heading != blank %}
+                <h3 class="promotion-block__heading">
+                  {{ block.settings.title | escape }}
+                </h3>
+              {% endif %}
+
+              {% if caption != blank %}
+                <div class="promotion-block__caption">{{ caption }}</div>
+              {% endif %}
+
+              {% if link != blank and url != blank %}
+                <span class="promotion-block__cta">
+                  {{ link }}
+                </span>
+              {% endif %}
+            </div>
+          </div>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Promotions",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Promotions"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Promotion",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Promotion"
+        },
+        {
+          "type": "richtext",
+          "id": "caption",
+          "label": "Text",
+          "default": "<p>Say a bit about your brand, a specific product, or promotion.</p>"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "cta_title",
+          "label": "Button text",
+          "default": "Shop now"
+        },
+        {
+          "type": "select",
+          "id": "text_color",
+          "label": "Text shade",
+          "options": [
+            {
+              "value": "light",
+              "label": "Light"
+            },
+            {
+              "value": "dark",
+              "label": "Dark"
+            }
+          ],
+          "default": "light"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Image",
+      "name": "Promotions",
+      "blocks": [
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        }
+      ]
+    }
+  ]
+}
+
+{% endschema %}

@@ -1,0 +1,290 @@
+<script
+  type="application/json"
+  data-section-type="static-footer"
+  data-section-id="{{ section.id }}"
+>
+</script>
+<footer class="footer" role="contentinfo">
+  <div class="footer__wrapper">
+    <div class="footer-blocks">
+      {% for block in section.blocks %}
+        <div class="footer-block" {{ block.shopify_attributes }}>
+          {% if block.settings.title != blank %}<h2 class="footer-block__title">{{ block.settings.title }}</h2>{% endif %}
+
+          {% case block.type %}
+            {% when 'menu' %}
+              {% comment %}Inject footer-menu begin{% endcomment %}
+              <ul class="footer-menu">
+                {% for link in linklists[block.settings.footer_menu].links %}
+                  <li class="footer-menu__item">
+                    <a class="footer-menu__link" href="{{ link.url }}">
+                      {{ link.title }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+              {% comment %}Inject footer-menu end{% endcomment %}
+
+            {% when 'text' %}
+              {% comment %}Inject footer-text begin{% endcomment %}
+              <div class="footer-text">{{ block.settings.caption }}</div>
+              {% comment %}Inject footer-text end{% endcomment %}
+
+            {% when 'social' %}
+              {% comment %}Inject footer-social-media begin{% endcomment %}
+              <div class="footer-social-media">
+                {% render 'social-links' %}
+              </div>
+              {% comment %}Inject footer-social-media end{% endcomment %}
+
+            {% when 'newsletter' %}
+              {% comment %}Inject footer-newsletter begin{% endcomment %}
+              {% form 'customer', id: 'footer-newsletter', class: 'footer-newsletter' %}
+                {% if form.posted_successfully? %}
+                  <script>
+                    window.location = "#footer-newsletter";
+                  </script>
+                  <p class="footer-newsletter__message footer-newsletter__message--success">{{ 'layout.footer.newsletter_thanks' | t }}</p>
+                {% else %}
+                  {% if block.settings.caption != blank %}<div class="footer-newsletter__caption">{{ block.settings.caption }}</div>{% endif %}
+              
+                  <div class="footer-newsletter__wrapper">
+                    <input
+                      id="contact_tags"
+                      type="hidden"
+                      name="contact[tags]"
+                      value="prospect,newsletter"
+                    />
+                    <input
+                      class="footer-newsletter__email"
+                      type="email"
+                      name="contact[email]"
+                      placeholder="{{ 'general.email_placeholder' | t }}"
+                    />
+                    <button
+                      class="footer-newsletter__submit"
+                      type="submit"
+                    >
+                      {% render 'icon-library', id: 'icon-arrow-right' %}
+                    </button>
+                  </div>
+                {% endif %}
+              {% endform %}
+              {% comment %}Inject footer-newsletter end{% endcomment %}
+
+          {% endcase %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="footer-navigation-attribution">
+      {% assign additional_menu = section.settings.subfooter_menu %}
+
+      {% if additional_menu %}
+        <ul class="footer-navigation">
+          {% for link in linklists[additional_menu].links %}
+            <li class="footer-navigation__item">
+              <a class="footer-navigation__link" href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <p class="footer-attribution">
+        {% capture year %}
+          {{ "now" | date: "%Y" }}
+        {% endcapture %}
+        {% capture shopName %}
+          {{ shop.name | link_to: routes.root_url }}.
+        {% endcapture %}
+        {% capture attribution %}{{ 'layout.footer.copyright_html' | t: year: year, shop_name: shopName }} {{ powered_by_link }}{% endcapture %}
+
+        {{ attribution }}
+      </p>
+    </div>
+
+    <div class="footer-crossborder-payment">
+      {% assign currency_selector = section.settings.show_currency_selector %}
+      {% assign locale_selector = section.settings.show_locale_selector %}
+
+      {% if currency_selector or locale_selector %}
+        <div class="footer-cross-border">
+          {% comment %}Inject @pixelunion/shopify-cross-border/cross-border begin{% endcomment %}
+          {% form 'localization' %}
+            {% if locale_selector and form.available_locales.size > 1 %}
+              {% comment %}Inject @pixelunion/shopify-cross-border/multi-language begin{% endcomment %}
+              <div class="selectors-form__item">
+                <div class="disclosure" data-disclosure-locale>
+                  <button type="button" class="disclosure__toggle" aria-expanded="false" aria-controls="lang-list" aria-describedby="lang-heading" data-disclosure-toggle>
+                    {{ form.current_locale.endonym_name }}
+                  </button>
+                  <ul id="lang-list" class="disclosure-list" data-disclosure-list>
+                    {% for locale in form.available_locales %}
+                      <li>
+                        <a class="disclosure-list__item {% if locale.iso_code == form.current_locale.iso_code %}disclosure-list__item--current{% endif %}" href="#" lang="{{ locale.iso_code }}" {% if locale.iso_code == form.current_locale.iso_code %}aria-current="true"{% endif %} data-value="{{ locale.iso_code }}" data-disclosure-option>
+                          <span class="disclosure-list__option">{{ locale.endonym_name }}</span>
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                  <input type="hidden" name="locale_code" id="LocaleSelector" value="{{ form.current_locale.iso_code }}" data-disclosure-input/>
+                </div>
+              </div>
+              {% comment %}Inject @pixelunion/shopify-cross-border/multi-language end{% endcomment %}
+          
+            {% endif %}
+          
+            {% if currency_selector and form.available_currencies.size > 1 %}
+              {% comment %}Inject @pixelunion/shopify-cross-border/multi-currency begin{% endcomment %}
+              <div class="selectors-form__item">
+                <div class="disclosure" data-disclosure-currency>
+                  <button type="button" class="disclosure__toggle" aria-expanded="false" aria-controls="currency-list" aria-describedby="currency-heading" data-disclosure-toggle>
+                    {{ form.current_currency.iso_code }} {%- if form.current_currency.symbol -%}{{ form.current_currency.symbol }}{%- endif -%}
+                  </button>
+                  <ul id="currency-list" class="disclosure-list" data-disclosure-list>
+                    {% for currency in form.available_currencies %}
+                      <li>
+                        <a class="disclosure-list__item {% if currency.iso_code == form.current_currency.iso_code %}disclosure-list__item--current{% endif %}" href="#" {% if currency.iso_code == form.current_currency.iso_code %}aria-current="true"{% endif %} data-value="{{ currency.iso_code }}" data-disclosure-option>
+                          <span class="disclosure-list__option">{{ currency.iso_code }} {%- if currency.symbol -%}{{ currency.symbol }}{%- endif -%}</span>
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                  <input type="hidden" name="currency_code" id="CurrencySelector" value="{{ form.current_currency.iso_code }}" data-disclosure-input/>
+                </div>
+              </div>
+              {% comment %}Inject @pixelunion/shopify-cross-border/multi-currency end{% endcomment %}
+          
+            {% endif %}
+          {% endform %}
+          {% comment %}Inject @pixelunion/shopify-cross-border/cross-border end{% endcomment %}
+
+        </div>
+      {% endif %}
+
+      {% if shop.enabled_payment_types.size > 0 and section.settings.payment_icons %}
+        <div class="footer-payment-types">
+          {% for type in shop.enabled_payment_types %}
+            {{ type | payment_type_svg_tag: class: 'footer-payment-types__icon' }}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "subfooter_menu",
+      "label": "Menu",
+      "default": "footer",
+      "info": "This menu does not support nesting"
+    },
+    {
+      "type": "checkbox",
+      "id": "payment_icons",
+      "label": "Show payment icons"
+    },
+    {
+      "type": "header",
+      "content": "Language Selector",
+      "info": "To add a language, go to your [language settings.](/admin/settings/languages)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_locale_selector",
+      "label": "Show language selector",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Currency Selector",
+      "info": "To add a currency, go to your [payment settings.](/admin/settings/payments)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_currency_selector",
+      "label": "Show currency selector",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Menu"
+        },
+        {
+          "type": "link_list",
+          "id": "footer_menu",
+          "label": "Menu",
+          "default": "footer",
+          "info": "This menu does not support nesting"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Text"
+        },
+        {
+          "type": "richtext",
+          "id": "caption",
+          "label": "Text",
+          "default": "<p>Use this section to welcome customers to your store, say a bit about your brand, or share news and seasonal promotions.</p>"
+        }
+      ]
+    },
+    {
+      "type": "social",
+      "name": "Social media",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Social media",
+          "info": "Configure your social media under “General settings” in “Social media”."
+        }
+      ],
+      "limit": 1
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Newsletter"
+        },
+        {
+          "type": "richtext",
+          "id": "caption",
+          "label": "Text",
+          "default": "<p>Say a bit about your brand, a specific product, or promotion.</p>"
+        }
+      ],
+      "limit": 1
+    }
+  ]
+}
+
+{% endschema %}

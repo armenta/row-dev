@@ -1,0 +1,142 @@
+{% assign logo = section.settings.logo %}
+{% if logo %}
+  {% assign logo_width = section.settings.logo_width | append: 'x' %}
+  {% assign logo_height = section.settings.logo_width | divided_by: section.settings.logo.aspect_ratio %}
+  {% assign logo_height_mobile = section.settings.logo_width_mobile | divided_by: section.settings.logo.aspect_ratio %}
+{% endif %}
+
+{% comment %}
+  The outer wrapper needs to have styles applied to it in order for the sticky header to work.
+  Unfortunately we cannot put this into the stylesheet because there's no way for that wrapper to know
+  that the header is supposed to be sticky. This is also the case with the header-controls since
+  webkit has issues with nested sticky elements. :S
+{% endcomment %}
+<style>
+  body {
+    {% if logo %}
+      --header-logo-height: {{ logo_height | append: 'px' }};
+      --header-logo-height-mobile: {{ logo_height_mobile | append: 'px' }};
+      --header-logo-width: {{ section.settings.logo_width | append: 'px' }};
+      --header-logo-width-mobile: {{ section.settings.logo_width_mobile | append: 'px' }};
+    {% else %}
+      {% comment %} Height of an <h1> including line height {% endcomment %}
+      --header-logo-height: 2.6875rem;
+      --header-logo-height-mobile: 1.9375rem;
+    {% endif %}
+  }
+
+  .header-controls {
+    {% unless section.settings.sticky_header %}
+      position: relative;
+      top: auto;
+    {% endunless %}
+  }
+
+  .site-header__outer-wrapper {
+    {% if section.settings.sticky_header %}
+      position: sticky;
+    {% endif %}
+  }
+</style>
+
+<script
+  type="application/json"
+  data-section-type="static-header"
+  data-section-id="{{ section.id }}"
+>
+</script>
+
+<header
+  class="site-header {% if section.settings.sticky_header %}site-header--sticky{% endif %}"
+  data-site-header
+>
+  <div class="site-header__wrapper">
+    <h1 class="site-header__heading" data-header-logo>
+      {% if logo %}
+        <a href="{{ routes.root_url }}" class="site-header__logo" aria-label="{{shop.name}}">
+          {%
+            render 'rimg',
+            img: section.settings.logo,
+            size: logo_width
+          %}
+        </a>
+      {% else %}
+        {{ shop.name | link_to: routes.root_url }}
+      {% endif %}
+    </h1>
+
+    <nav class="site-navigation" aria-label="{{ 'general.accessibility.main_navigation' | t }}">
+      {% render 'navigation-desktop' %}
+    </nav>
+  </div>
+</header>
+
+{% render 'navigation-mobile' %}
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "site-header__outer-wrapper",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "sticky_header",
+      "label": "Enable sticky header"
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo width",
+      "min": 50,
+      "max": 500,
+      "step": 5,
+      "unit": "px",
+      "default": 180
+    },
+    {
+      "type": "range",
+      "id": "logo_width_mobile",
+      "label": "Mobile logo width",
+      "min": 50,
+      "max": 300,
+      "step": 5,
+      "unit": "px",
+      "default": 180
+    },
+    {
+      "type": "header",
+      "content": "Navigation ([?](https:\/\/www.pixelunion.net\/support\/editions-theme-manual/))"
+    },
+    {
+      "type": "link_list",
+      "id": "main_menu",
+      "label": "Menu",
+      "default": "main-menu"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "megamenu",
+      "name": "Mega navigation",
+      "settings": [
+        {
+          "id": "meganav_trigger",
+          "type": "text",
+          "label": "Mega navigation trigger",
+          "info": "Add the menu item that you want to turn into a mega navigation."
+        }
+      ]
+    }
+  ]
+}
+
+{% endschema %}

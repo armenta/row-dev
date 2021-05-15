@@ -1,0 +1,83 @@
+{% assign layout = 'two-column' %}
+{% assign enable_zoom = settings.quickshop_gallery_image_zoom %}
+{% assign enable_cart_redirection = settings.qs_enable_cart_redirection %}
+{% assign show_quantity_selector = settings.qs_quantity_selector %}
+{% assign show_variant_labels = settings.quickshop_show_variant_labels %}
+{% assign show_vendor = settings.quickshop_show_vendor %}
+{% assign show_social_sharing_buttons = settings.quickshop_show_social_sharing_buttons %}
+
+{% assign onboarding = false %}
+
+{% assign variant = product.selected_or_first_available_variant %}
+
+{% capture to_hash %}
+  {{ shop.money_format }}
+  {{ settings.qs_enable_cart_redirection }}
+  {{ settings.show_payment_button }}
+  {{ settings.qs_quantity_selector }}
+  {{ settings.quickshop_show_variant_labels }}
+  {{ settings.quickshop_show_vendor }}
+  {{ settings.quickshop_show_social_sharing_buttons }}
+  {{ settings.quickshop_gallery_image_zoom }}
+  {{ settings.quickshop_gallery_video_autoplay }}
+  {{ settings.quickshop_gallery_video_looping }}
+  {{ product | json }}
+{% endcapture %}
+{% assign to_hash = to_hash | replace: ' ', '' | sha256 %}
+
+<template data-options>
+  {
+    "hash": {{ to_hash | json }}
+  }
+</template>
+
+<template data-data>
+  {
+    "product": {{ product | json }},
+    "layout": {{ layout | json }},
+    "gallery_image_zoom": {{ settings.quickshop_gallery_image_zoom | json }},
+    "gallery_video_autoplay": {{ settings.quickshop_gallery_video_autoplay | json }},
+    "gallery_video_looping": {{ settings.quickshop_gallery_video_looping | json }},
+    "enable_cart_redirection": {{ enable_cart_redirection | json }},
+    "show_quantity_selector": {{ show_quantity_selector | json }},
+    "show_variant_labels": {{ show_variant_labels | json }},
+    "show_vendor": {{ show_vendor | json }},
+    "show_social_sharing_buttons": {{ show_social_sharing_buttons | json }},
+    "addToCartText": {{ 'product.add_to_cart.submit' | t | json }},
+    "enableHistory": false,
+    "linkedOptions": true,
+    "soldOutText": {{ 'product.add_to_cart.sold_out' | t | json }},
+    "unavailableText": {{ 'product.add_to_cart.unavailable' | t | json }},
+    "atc_message_success": {{ 'product.add_to_cart.success_html' | t | json }},
+    "atc_cart_link": {{ 'product.add_to_cart.cart_link' | t | json }},
+    "atc_continue_shopping": {{ 'general.continue_shopping' | t | json }},
+    "atc_checkout_link": {{ 'product.add_to_cart.checkout_link' | t | json }}
+  }
+</template>
+
+<template data-html>
+  <div
+    class="
+      product-page
+      clearfix
+      {{ layout }}
+      {% if product.images.size > 0 %}
+        product-showcase
+      {% endif %}
+    "
+  >
+    {%
+      render 'product',
+      product: product,
+      show_payment_button: settings.show_payment_button,
+      layout: layout,
+      show_vendor: show_vendor,
+      onboarding: onboarding,
+      enable_zoom: enable_zoom,
+      variant: variant,
+      show_quantity_selector: show_quantity_selector,
+      show_variant_labels: show_variant_labels,
+      show_social_sharing_buttons: show_social_sharing_buttons
+    %}
+  </div>
+</template>

@@ -1,0 +1,192 @@
+<script
+  type="application/json"
+  data-section-type="static-article"
+  data-section-id="{{ section.id }}"
+>
+</script>
+
+<section class="article-page__wrapper">
+  <div class="article-page article-page--width-{{- section.settings.page_width -}}">
+    <div class="article-page__header">
+      {% if section.settings.show_date %}
+        <div class="article-page__date">
+          {{ article.published_at | date: format: 'long_month' }}
+        </div>
+      {% endif %}
+
+      <h1 class="article-page__heading">{{ article.title }}</h1>
+
+      {% if section.settings.show_author %}
+        <div class="article-page__author">
+          {{ 'blog.article.by_author' | t: author: article.author }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="article-page__wrapper">
+      {% if article.image %}
+        <div class="article-page__image">
+          {% if template contains "article" %}
+            {%
+              render 'rimg',
+              img: article.image,
+              size: '1024x1024',
+              lazy: true,
+              canvas: true
+            %}
+          {% else %}
+            <a href="{{ article.url }}">
+              {%
+                render 'rimg',
+                img: article.image,
+                size: '1024x1024',
+                lazy: true,
+                canvas: true
+              %}
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <div class="article-page__content" data-rich-text-area>
+        {{ article.content }}
+      </div>
+
+      {% if section.settings.social_share %}
+        <div class="article-page__share">
+          <p class="article-page__share-text">{{ 'general.social.share_this' | t }}</p>
+          {% render 'share-buttons', context: article %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.show_post_tags and article.tags.size > 0 %}
+        <div class="article-page__tags">
+          {{ 'blog.tagged' | t }}
+          {% for tag in article.tags %}
+            <a
+              href="{{ blog.url }}/tagged/{{ tag | handle }}"
+              class="article-page__tag"
+            >
+              {{ tag }}
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if article.comments_enabled? %}
+      {% if article.comments.size > 0 %}
+        {% paginate article.comments by 5 %}
+          <section class="article-comments">
+            <div class="article-comments__header">
+              <h2>{{ 'blog.comment_count' | t: count: article.comments_count }}</h2>
+            </div>
+            <ul class="article-comments__comment-list">
+              {% for comment in article.comments %}
+                {% assign comment_date = comment.created_at | date: format: 'long_month' %}
+                <li class="article-comments__comment">
+                  <div class="article-comments__author">
+                    <strong>{{comment.author }}</strong> {{ 'blog.article.comment_date' | t: date: comment_date }}
+                  </div>
+                  <div class="article-comments__text">{{ comment.content }}</div>
+                </li>
+              {% endfor %}
+            </ul>
+
+            {% if paginate.previous or paginate.next %}
+              {% render 'pagination', paginate: paginate %}
+            {% endif %}
+          </section>
+        {% endpaginate %}
+      {% endif %}
+
+      <section class="article-comment-form">
+        <div class="article-comment-form__header">
+          <h2>{{ 'blog.article.comment_form_title' | t }}</h2>
+        </div>
+
+        {% form article %}
+          <div class="article-comment-form__wrapper">
+            {% if form.errors %}
+              <div id="comment-error-alert" class="errors">
+                {{ 'blog.article.comment_error_message' | t}}
+              </div>
+            {% endif %}
+
+            <div>
+              <label for="author-name">{{ 'general.name' | t }}</label>
+              <input id="author-name" type="text" placeholder="{{ 'general.name_placeholder' | t }}" name="comment[author]" class="{% if form.errors contains "author" %}field-error{% endif %}">
+            </div>
+
+            <div>
+              <label for="author-email">{{ 'general.email' | t }}</label>
+              <input id="author-email" type="text" placeholder="{{ 'general.email_placeholder' | t }}" name="comment[email]" class="{% if form.errors contains "email" %}field-error{% endif %}">
+            </div>
+
+            <div>
+              <label for="author-comment">{{ 'general.message' | t }}</label>
+              <textarea
+                id="author-comment"
+                name="comment[body]"
+                class="article-comment-form__comment {% if form.errors contains "body" %}field-error{% endif %}"
+              ></textarea>
+            </div>
+
+            <input class="article-comment-form__submit-button" type="submit" value="{{ 'blog.article.post_comment_button' | t }}">
+          </div>
+        {% endform %}
+      </section>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Article",
+  "settings": [
+    {
+      "type": "select",
+      "id": "page_width",
+      "label": "Page width",
+      "options": [
+        {
+          "label": "Regular",
+          "value": "regular"
+        },
+        {
+          "label": "Wide",
+          "value": "wide"
+        },
+        {
+          "label": "Full width",
+          "value": "full"
+        }
+      ],
+      "default": "regular"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_post_tags",
+      "label": "Show post tags"
+    },
+    {
+      "type": "checkbox",
+      "id": "social_share",
+      "label": "Show blog post sharing"
+    }
+  ]
+}
+
+{% endschema %}

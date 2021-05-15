@@ -1,23 +1,78 @@
-<div class="collection-wrap first">
+{% comment %}
+  @param collection {Collection} Collection for which to render a collection list item card
 
-  {% if collection-list-item == 'linklist' %}
-    {% assign link_handle = link.handle %}
-    {% assign collection = collections[link_handle] %}
-  {% endif %}
+  @param show_title {Boolean} Includes title when true
 
-  {% if collection.image %}
-    {% assign imgSrc = collection.image.src | collection_img_url: 'large' %}
-  {% else %}
-    {% assign imgSrc = collection.products.first.featured_image | product_img_url: 'large' %}
-  {% endif %}
+  @param show_product-count {Boolean} Includes product count when true
 
-  <div class="collection" style="background-image:url({{ imgSrc }});">
-    <a href="{{ collection.url }}">
-      <h2 class="label preload">{{ collection.title }}</h2>
-      <h2 class="browse">{{ 'collections.collection.browse' | t }}</h2>
+  @param show_description {Boolean} Includes description when true
+
+  @param item_style {String} One of natural|small|medium|large, applied as class to image wrapper
+{% endcomment %}
+
+{% assign block = block | default: nil %}
+
+{% assign onboarding = false %}
+{% if collection == blank %}
+  {% assign onboarding = true %}
+{% endif %}
+
+<article class="collection-list-item" {{ block.shopify_attributes }}>
+  {% capture image_wrap_classes %}
+    collection-list-item__image-wrap
+    collection-list-item__image-wrap--{{ item_style }}
+  {% endcapture %}
+  <!-- {% if onboarding %}
+    <a class="{{ image_wrap_classes }}" href="#">
+      {{ 'collection-1' |  placeholder_svg_tag: 'placeholder-svg' }}
     </a>
-  </div>
-  <div class="rte clearfix">
-    {{ collection.description }}
-  </div>
-</div>
+    {% if show_title %}
+      <h2 class="collection-list-item__title">{{ 'onboarding.collection.title' | t }}</h2>
+    {% endif %}
+  {% else %} -->
+    <a class="{{ image_wrap_classes }}" href="{{ collection.url }}">
+      {% assign image = collection.image %}
+      {% assign alt = collection.image.alt %}
+      {% unless image %}
+        {% assign image = collection.products.first.featured_media.preview_image %}
+        {% assign alt = collection.title %}
+      {% endunless %}
+
+      {% if show_title %}
+        <h2 class="collection-list-item__hovertitle">
+          {{ collection.title }}
+        </h2>
+      {% endif %}
+
+      {% if image %}
+        {%
+          render 'rimg',
+          img: image,
+          alt: alt,
+          size: '700x',
+          lazy: true,
+          crop: 'center',
+          canvas: true,
+        %}
+      {% else %}
+        {{ 'collection-1' |  placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+
+    </a>
+    <!-- {% if show_title %}
+      <h2 class="collection-list-item__title">
+        <a href="{{ collection.url }}">{{ collection.title }}</a>
+      </h2>
+    {% endif %} -->
+    {% if show_product_count and collection.products_count > 0 %}
+      <p class="collection-list-item__product-count">
+        {{ 'collections.product_count' | t: count: collection.products_count }}
+      </p>
+    {% endif %}
+    {% if show_description %}
+      <p class="collection-list-item__description">
+        {{ collection.description | strip_html | truncatewords: 20 | replace: '....', '...' }}
+      </p>
+    {% endif %}
+  {% endif %}
+</article>

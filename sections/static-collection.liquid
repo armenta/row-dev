@@ -1,0 +1,162 @@
+{% assign products_per_row =  section.settings.collection-products-per-row %}
+{% assign products_per_page = section.settings.collection-products-number-of-rows | times: products_per_row %}
+{% assign pagination_method = section.settings.products_pagination_method %}
+{% assign sort_by = section.settings.sort_by_dropdown %}
+{% assign browse_by = section.settings.browse_by_dropdown %}
+
+{%- assign paginate_by = products_per_page -%}
+{% paginate collection.products by paginate_by %}
+  {% assign total_products = paginate.items %}
+{% endpaginate %}
+
+<script
+  type="application/json"
+  data-section-type="static-collection"
+  data-section-id="{{ section.id }}"
+  data-section-data
+>
+  {
+    "pagination_method": {{ pagination_method | json }},
+    "products_per_page": {{ products_per_page | json }},
+    "total_products": {{ total_products | json }}
+  }
+</script>
+
+{% paginate collection.products by products_per_page %}
+
+  <section
+    id="content"
+    class="collection-page
+      {% if paginate.previous or paginate.next %}has-pagination{% endif %}
+      {{ pagination_method }}
+    "
+    data-section-id="{{ section.id }}"
+    data-section-type="collection"
+  >
+    <div
+      class="
+        collection-page__header
+        {% if collection.description.size > 0 %}has-description{% endif %}
+      "
+    >
+      {% assign title = collection.title %}
+      {% if collection.url == blank %}
+        {% assign title = 'collections.all_products' | t %}
+      {% endif %}
+
+      <h1>{{ title }}{% if current_tags.size > 0 %} / {{ current_tags.first }}{% endif %}</h1>
+
+      {% if collection.description.size > 0 %}
+        <div class="collection-page__description" data-rich-text-area>
+          {{ collection.description }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if sort_by or browse_by %}
+      <div class="collection-page__filter-wrapper">
+        {% if sort_by %}
+          {% render "collection-sort-filter" %}
+        {% endif %}
+
+        {% if browse_by %}
+          {% render "collection-tag-filter" %}
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div
+      class="
+        collection-page__product-list
+        collection-page__product-list--{{ products_per_row }}-columns
+      "
+      data-product-count="{{ paginate.items }}"
+      data-collection-grid
+    >
+      {% if collection.handle == 'all' and collection.all_vendors.size == 0 and collection.all_types.size == 0 %}
+        {% for i in (1..products_per_row) %}
+          {% render 'small-product-item-demo' %}
+        {% endfor %}
+      {% else %}
+        {% for product in collection.products %}
+          {% render 'small-product-item', product: product %}
+        {% else %}
+          <p class="collection-page__empty-collection">{{ 'collections.no_products' | t }}</p>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    {% if paginate.previous or paginate.next %}
+      {% if pagination_method contains "infinite_scroll" %}
+        <div class="infinite-scroll" data-infinite-scroll-target>
+          <button class="infinite-scroll__loading {% if pagination_method contains "click_to_load" %}infinite-scroll__show-more{% endif %}"
+            data-infinite-scroll-show-more="{{ 'collections.more' | t }}"
+            data-infinite-scroll-loading="{{ 'collections.loading' | t }}"
+          >
+            {{ 'collections.more' | t }}
+          </button>
+        </div>
+      {% endif %}
+      {% render 'pagination', paginate: paginate %}
+    {% endif %}
+
+    <script type="application/json" data-section-json>{{ section.settings | json }}</script>
+
+  </section>
+{% endpaginate %}
+
+{% schema %}
+{
+  "name": "Collection pages",
+  "settings": [
+    {
+      "type": "select",
+      "id": "products_pagination_method",
+      "label": "Pagination method",
+      "options": [
+        {
+          "value": "infinite_scroll_click_to_load",
+          "label": "Click to load more"
+        },
+        {
+          "value": "infinite_scroll",
+          "label": "Infinite scroll"
+        },
+        {
+          "value": "traditional_pagination",
+          "label": "Traditional pagination"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "collection-products-per-row",
+      "label": "Products per row",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "collection-products-number-of-rows",
+      "label": "Rows",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "sort_by_dropdown",
+      "label": "Enable sorting"
+    },
+    {
+      "type": "checkbox",
+      "id": "browse_by_dropdown",
+      "label": "Enable tag filter"
+    }
+  ]
+}
+
+{% endschema %}
