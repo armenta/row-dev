@@ -98,7 +98,6 @@
           {{ shop.name | link_to: routes.root_url }}.
         {% endcapture %}
         {% capture attribution %}{{ 'layout.footer.copyright_html' | t: year: year, shop_name: shopName }} {{ powered_by_link }}{% endcapture %}
-
         {{ attribution }}
       </p>
     </div>
