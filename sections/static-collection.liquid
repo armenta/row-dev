@@ -53,39 +53,45 @@
       {% endif %}
     </div>
 
-    {% if sort_by or browse_by %}
-      <div class="collection-page__filter-wrapper">
-        {% if sort_by %}
-          {% render "collection-sort-filter" %}
-        {% endif %}
+    <div class="newgrid">
+      <div class="product-sidebar">
+        {% if sort_by or browse_by %}
+        <div class="collection-page__filter-wrapper">
+          {% if sort_by %}
+            {% render "collection-sort-filter" %}
+          {% endif %}
 
-        {% if browse_by %}
-          {% render "collection-tag-filter" %}
+          {% if browse_by %}
+            {% render "collection-tag-filter" %}
+          {% endif %}
+        </div>
         {% endif %}
       </div>
-    {% endif %}
-
-    <div
-      class="
-        collection-page__product-list
-        collection-page__product-list--{{ products_per_row }}-columns
-      "
-      data-product-count="{{ paginate.items }}"
-      data-collection-grid
-    >
-      {% if collection.handle == 'all' and collection.all_vendors.size == 0 and collection.all_types.size == 0 %}
-        {% for i in (1..products_per_row) %}
-          {% render 'small-product-item-demo' %}
-        {% endfor %}
-      {% else %}
-        {% for product in collection.products %}
-          {% render 'small-product-item', product: product %}
-        {% else %}
-          <p class="collection-page__empty-collection">{{ 'collections.no_products' | t }}</p>
-        {% endfor %}
-      {% endif %}
+      
+      <div class="product-content">
+        <div
+          class="
+            collection-page__product-list
+            collection-page__product-list--{{ products_per_row }}-columns
+          "
+          data-product-count="{{ paginate.items }}"
+          data-collection-grid
+        >
+          {% if collection.handle == 'all' and collection.all_vendors.size == 0 and collection.all_types.size == 0 %}
+            {% for i in (1..products_per_row) %}
+              {% render 'small-product-item-demo' %}
+            {% endfor %}
+          {% else %}
+            {% for product in collection.products %}
+              {% render 'small-product-item', product: product %}
+            {% else %}
+              <p class="collection-page__empty-collection">{{ 'collections.no_products' | t }}</p>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
     </div>
-
+    
     {% if paginate.previous or paginate.next %}
       {% if pagination_method contains "infinite_scroll" %}
         <div class="infinite-scroll" data-infinite-scroll-target>

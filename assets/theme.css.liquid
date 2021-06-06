@@ -6100,6 +6100,20 @@ body:not(.user-is-tabbing) .tabs .grouped-content-trigger:focus {
   }
 }
 
+.newgrid {
+  display: grid;
+}
+
+.product-sidebar {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.product-content {
+  grid-row: 1;
+  grid-column: 2;
+}
+
 .collection-page__filter-wrapper {
   margin-top: 1.5rem;
   margin-bottom: 0;
@@ -6193,6 +6207,16 @@ body:not(.user-is-tabbing) .tabs .grouped-content-trigger:focus {
   margin-left: 0;
 }
 
+.tag-filter {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.tag-filter a {
+  display: block;
+  margin-bottom: 10px;
+}
+
 .collection-page__description {
   max-width: 76ch;
   margin: 0 auto 2rem;
@@ -6229,6 +6253,8 @@ body:not(.user-is-tabbing) .tabs .grouped-content-trigger:focus {
 @media screen and (min-width: 576px) {
   .collection-page__product-list--3-columns {
     grid-template-columns: repeat(3, 1fr);
+    /*NOTE*/
+    margin-left: 50px;
   }
 }
 
